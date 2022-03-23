@@ -13,8 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 #  rm_msgs
   message_generation
-  json_msgs
-  json_transport
 )
 
 ## System dependencies are found with CMake's conventions
@@ -143,11 +141,6 @@ include_directories(
 add_executable(arm_control src/arm_control.cpp)
 target_link_libraries(arm_control ${catkin_LIBRARIES})
 
-add_executable(json_data src/json_data.cpp)
-target_link_libraries(json_data
-        ${catkin_LIBRARIES}
-#        json
-        )
 #add_dependencies(arm_control arm_control_gencpp)
 
 ## Rename C++ executable without prefix
