@@ -201,5 +201,5 @@ include_directories(
 # catkin_add_nosetests(test)
 add_executable(rm_driver1 src/rm_driver1.cpp src/cJSON.c)
 target_link_libraries(rm_driver1 ${catkin_LIBRARIES})
-add_dependencies(rm_driver1 rm_driver_generate_messages_cpp)
+add_dependencies(rm_driver1 rm_driver1_generate_messages_cpp)
 add_definitions(-std=c99) 
