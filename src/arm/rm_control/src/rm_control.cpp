@@ -490,7 +490,7 @@ int main(int argc, char** argv)
     //timer,5ms
     State_Timer = nh.createTimer(ros::Duration(0.02), timer_callback);
     // joint_pub = nh.advertise<sensor_msgs::JointState>("/joint_states", 1);
-    target_pub = nh.advertise<rm_msgs::JointPos>("/rm_driver/JointPos", 300);
+    target_pub = nh.advertise<rm_msgs::JointPos>("/rm_driver1/JointPos", 300);
     // 定义一个服务器
     Server server(nh, "rm_65/follow_joint_trajectory", boost::bind(&execute, _1, &server), false);
     // 服务器开始运行
