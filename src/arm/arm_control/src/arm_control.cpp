@@ -11,9 +11,6 @@
 
 #include "std_msgs/String.h"
 
-// try a commit
-// try a commit2
-
 class ArmControl
 {
 public:
