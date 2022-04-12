@@ -8,6 +8,7 @@
 #include "arm_control/Hand_Control.h"
 #include <rm_msgs/Tool_Analog_Output.h>
 #include <rm_msgs/Tool_Digital_Output.h>
+#include <arm_control/Arm.h>
 
 #include "std_msgs/String.h"
 
@@ -17,10 +18,12 @@ public:
     ArmControl(ros::NodeHandle& n);
 private:
     ros::NodeHandle n_;
+    ros::Subscriber subscriber_arm_;
     ros::ServiceServer service_hold_hand_;
     ros::ServiceServer service_open_hand_;
     ros::Publisher d_output_pub_;
     ros::Publisher a_output_pub_;
+    void arm_action_callback(arm_control::Arm &msg);
     bool hold_hand_callback(arm_control::Hand_Control::Request &req,
                             arm_control::Hand_Control::Response &res);
     bool open_hand_callback(arm_control::Hand_Control::Request &req,
@@ -33,7 +36,18 @@ ArmControl::ArmControl(ros::NodeHandle& n)
 
     service_hold_hand_ = n_.advertiseService("hand_control/hold", &ArmControl::hold_hand_callback,this);
     service_open_hand_ = n_.advertiseService("hand_control/open", &ArmControl::open_hand_callback,this);
+    subscriber_arm_ = n_.subscribe("/arm_action", 1000, &ArmControl::arm_action_callback, this);
     ROS_INFO("Ready to hold or open hands.");
+}
+
+void ArmControl::arm_action_callback(arm_control::Arm &msg)
+{
+    if(msg.action=="wave"){
+        ROS_INFO("Receive Arm.msg.action = 'wave'.");
+    }
+    else{
+        return;
+    }
 }
 
 bool ArmControl::hold_hand_callback(arm_control::Hand_Control::Request &req,
