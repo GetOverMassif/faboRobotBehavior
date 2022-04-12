@@ -4,6 +4,7 @@
 
 #include "string"
 #include <iostream>
+#include <vector>
 #include "ros/ros.h"
 #include "arm_control/Hand_Control.h"
 #include <rm_msgs/Tool_Analog_Output.h>
@@ -23,6 +24,7 @@ private:
     ros::ServiceServer service_open_hand_;
     ros::Publisher d_output_pub_;
     ros::Publisher a_output_pub_;
+    ros::Publisher arm_action_pub_;
     void arm_action_callback(arm_control::Arm &msg);
     bool hold_hand_callback(arm_control::Hand_Control::Request &req,
                             arm_control::Hand_Control::Response &res);
@@ -33,10 +35,10 @@ private:
 ArmControl::ArmControl(ros::NodeHandle& n)
 {
     n_ = n;
-
+    subscriber_arm_ = n_.subscribe("/arm_action", 1000, &ArmControl::arm_action_callback, this);
     service_hold_hand_ = n_.advertiseService("hand_control/hold", &ArmControl::hold_hand_callback,this);
     service_open_hand_ = n_.advertiseService("hand_control/open", &ArmControl::open_hand_callback,this);
-    subscriber_arm_ = n_.subscribe("/arm_action", 1000, &ArmControl::arm_action_callback, this);
+    arm_action_pub_ = n_.advertise<arm_control::Arm>("rm_driver2/MoveJ_Cmd", 1000);
     ROS_INFO("Ready to hold or open hands.");
 }
 
@@ -44,6 +46,24 @@ void ArmControl::arm_action_callback(arm_control::Arm &msg)
 {
     if(msg.action=="wave"){
         ROS_INFO("Receive Arm.msg.action = 'wave'.");
+        rm_msgs::MoveJ msg;
+        ros::Rate loop_rate(3);
+        std::vector<vector<int>> single_action_value;
+        position_value.push(std::vector<int>{1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0});
+        position_value.push(std::vector<int>{1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0});
+        for(auto &single_action:single_action_value)
+        {
+            msg.joint[0] = single_action.at(0);
+            msg.joint[1] = single_action.at(1);
+            msg.joint[2] = single_action.at(2);
+            msg.joint[3] = single_action.at(3);
+            msg.joint[4] = single_action.at(4);
+            msg.joint[5] = single_action.at(5);
+            msg.speed = single_action.at(6);
+
+            subscriber_arm_.pub(msg);
+            loop_rate.sleep();
+        }
     }
     else{
         return;
