@@ -138,6 +138,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
+add_executable(src/arm_control.cpp ${PROJECT_NAME}_generate_message_cpp)
 add_executable(arm_control src/arm_control.cpp)
 target_link_libraries(arm_control ${catkin_LIBRARIES})
 
