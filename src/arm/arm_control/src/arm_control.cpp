@@ -48,10 +48,14 @@ void ArmControl::arm_action_callback(const arm_control::Arms &msg)
     if(msg.action=="wave"){
         ROS_INFO("Receive Arm.msg.action = 'wave'.");
         rm_msgs::MoveJ msg;
-        ros::Rate loop_rate(3);
+        ros::Rate loop_rate(0.9);
         std::vector<std::vector<float>> action_value;
-        action_value.push_back(std::vector<float>{1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0});
-        action_value.push_back(std::vector<float>{1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0});
+        action_value.push_back(std::vector<float>{1.45, -0.40, 0.03, -0.12, -0.11, 0.30, 0.5});
+        action_value.push_back(std::vector<float>{1.45, -0.17, 0.45, -0.11, 0.38, 0.55, 0.5});
+        action_value.push_back(std::vector<float>{1.45, -0.40, 0.03, -0.12, -0.11, 0.30, 0.5});
+        action_value.push_back(std::vector<float>{1.45, -0.17, 0.45, -0.11, 0.38, 0.55, 0.5});
+        action_value.push_back(std::vector<float>{1.45, -0.40, 0.03, -0.12, -0.11, 0.30, 0.5});
+        action_value.push_back(std::vector<float>{1.45, -0.17, 0.45, -0.11, 0.38, 0.55, 0.5});
         for(auto &single_action:action_value)
         {
             msg.joint[0] = single_action.at(0);
@@ -61,7 +65,6 @@ void ArmControl::arm_action_callback(const arm_control::Arms &msg)
             msg.joint[4] = single_action.at(4);
             msg.joint[5] = single_action.at(5);
             msg.speed = single_action.at(6);
-
             arm_action_pub_.publish(msg);
             loop_rate.sleep();
         }
