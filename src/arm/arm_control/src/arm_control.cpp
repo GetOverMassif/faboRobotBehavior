@@ -9,7 +9,8 @@
 #include "arm_control/Hand_Control.h"
 #include <rm_msgs/Tool_Analog_Output.h>
 #include <rm_msgs/Tool_Digital_Output.h>
-#include <arm_control/Arm.h>
+#include <rm_msgs/MoveJ.h>
+#include <arm_control/Arms.h>
 
 #include "std_msgs/String.h"
 
@@ -25,7 +26,7 @@ private:
     ros::Publisher d_output_pub_;
     ros::Publisher a_output_pub_;
     ros::Publisher arm_action_pub_;
-    void arm_action_callback(arm_control::Arm &msg);
+    void arm_action_callback(const arm_control::Arms &msg);
     bool hold_hand_callback(arm_control::Hand_Control::Request &req,
                             arm_control::Hand_Control::Response &res);
     bool open_hand_callback(arm_control::Hand_Control::Request &req,
@@ -38,20 +39,20 @@ ArmControl::ArmControl(ros::NodeHandle& n)
     subscriber_arm_ = n_.subscribe("/arm_action", 1000, &ArmControl::arm_action_callback, this);
     service_hold_hand_ = n_.advertiseService("hand_control/hold", &ArmControl::hold_hand_callback,this);
     service_open_hand_ = n_.advertiseService("hand_control/open", &ArmControl::open_hand_callback,this);
-    arm_action_pub_ = n_.advertise<arm_control::Arm>("rm_driver2/MoveJ_Cmd", 1000);
+    arm_action_pub_ = n_.advertise<rm_msgs::MoveJ>("rm_driver2/MoveJ_Cmd", 1000);
     ROS_INFO("Ready to hold or open hands.");
 }
 
-void ArmControl::arm_action_callback(arm_control::Arm &msg)
+void ArmControl::arm_action_callback(const arm_control::Arms &msg)
 {
     if(msg.action=="wave"){
         ROS_INFO("Receive Arm.msg.action = 'wave'.");
         rm_msgs::MoveJ msg;
         ros::Rate loop_rate(3);
-        std::vector<vector<int>> single_action_value;
-        position_value.push(std::vector<int>{1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0});
-        position_value.push(std::vector<int>{1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0});
-        for(auto &single_action:single_action_value)
+        std::vector<std::vector<float>> action_value;
+        action_value.push_back(std::vector<float>{1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0});
+        action_value.push_back(std::vector<float>{1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0});
+        for(auto &single_action:action_value)
         {
             msg.joint[0] = single_action.at(0);
             msg.joint[1] = single_action.at(1);
@@ -61,7 +62,7 @@ void ArmControl::arm_action_callback(arm_control::Arm &msg)
             msg.joint[5] = single_action.at(5);
             msg.speed = single_action.at(6);
 
-            subscriber_arm_.pub(msg);
+            arm_action_pub_.publish(msg);
             loop_rate.sleep();
         }
     }
