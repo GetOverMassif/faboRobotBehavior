@@ -77,8 +77,8 @@ void ArmControl::arm_action_callback(const arm_control::Arms &msg)
         ros::Rate loop_rate(0.8);
         std::vector<std::vector<float>> arm1_action_value;
         std::vector<std::vector<float>> arm2_action_value;
-        arm1_action_value.push_back(std::vector<float>{-0.57, 1.09, 1.65, -2.04, -1.24, 0.63, 0.6});
-        arm2_action_value.push_back(std::vector<float>{0.57, -1.09, -1.65, 2.04, 1.24, -0.63, 0.6});
+        arm1_action_value.push_back(std::vector<float>{0.57, -1.09, -1.65, 2.04, 1.24, -0.63, 0.6});
+        arm2_action_value.push_back(std::vector<float>{-0.57, 1.09, 1.65, -2.04, -1.24, 0.63, 0.6});
         for(int i=0;i<6;i++){
             msg1.joint[i] = arm1_action_value.at(0).at(i);
             msg1.joint[i] = arm1_action_value.at(0).at(i);
