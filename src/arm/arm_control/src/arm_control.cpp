@@ -14,10 +14,6 @@
 
 #include "std_msgs/String.h"
 
-// 1
-// 2
-// 3
-
 class ArmControl
 {
 public:
