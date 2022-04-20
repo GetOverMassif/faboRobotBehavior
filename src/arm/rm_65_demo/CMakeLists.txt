@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(rm_65_demo)
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+    message(STATUS "optional:-std=c++11")   
+endif(CMAKE_COMPILER_IS_GNUCXX)
+
+
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
