@@ -53,7 +53,7 @@ void ArmControl::arm_action_callback(const arm_control::Arms &msg)
         ros::Rate loop_rate(1.2);
         std::vector<std::vector<float>> arm1_action_value;
         std::vector<std::vector<float>> arm2_action_value;
-        arm2_action_value.push_back(std::vector<float>{-0.57, 1.09, 1.65, -2.04, -1.24, 0.63, 0.6});
+        // arm2_action_value.push_back(std::vector<float>{-0.57, 1.09, 1.65, -2.04, -1.24, 0.63, 0.6});
         arm2_action_value.push_back(std::vector<float>{1.65, 0.70, 0.61, -0.07, 0.04, 0.46, 0.8});
         arm2_action_value.push_back(std::vector<float>{1.69, 0.80, 1.05, 0.09, 0.42, 0.62, 0.8});
         arm2_action_value.push_back(std::vector<float>{1.65, 0.70, 0.61, -0.07, 0.04, 0.46, 0.8});
@@ -67,25 +67,59 @@ void ArmControl::arm_action_callback(const arm_control::Arms &msg)
                 msg2.joint[i] = single_action.at(i);
             }
             msg2.speed = single_action.at(6);
-            arm2_action_pub_.publish(msg);
+            arm2_action_pub_.publish(msg2);
             loop_rate.sleep();
         }
     }
-    else if(msg.action=="Curl"){
-        ROS_INFO("Receive Arm.msg.action = 'Curl'.");
+    else if(msg.action=="curl"){
+        ROS_INFO("Receive Arm.msg.action = 'curl'.");
         rm_msgs::MoveJ msg1,msg2;
-        ros::Rate loop_rate(0.8);
+        ros::Rate loop_rate(1.5);
         std::vector<std::vector<float>> arm1_action_value;
         std::vector<std::vector<float>> arm2_action_value;
         arm1_action_value.push_back(std::vector<float>{0.57, -1.09, -1.65, 2.04, 1.24, -0.63, 0.6});
         arm2_action_value.push_back(std::vector<float>{-0.57, 1.09, 1.65, -2.04, -1.24, 0.63, 0.6});
         for(int i=0;i<6;i++){
             msg1.joint[i] = arm1_action_value.at(0).at(i);
-            msg1.joint[i] = arm1_action_value.at(0).at(i);
+            msg2.joint[i] = arm2_action_value.at(0).at(i);
         }
         msg1.speed = arm1_action_value.at(0).at(6);
         msg2.speed = arm2_action_value.at(0).at(6);
         arm1_action_pub_.publish(msg1);
+        loop_rate.sleep();
+        arm2_action_pub_.publish(msg2);
+        loop_rate.sleep();
+    }
+    else if(msg.action=="shrug"){
+        ROS_INFO("Receive Arm.msg.action = 'shrug'.");
+        rm_msgs::MoveJ msg1,msg2;
+        ros::Rate loop_rate(1.5);
+        std::vector<std::vector<float>> arm1_action_value;
+        std::vector<std::vector<float>> arm2_action_value;
+        arm1_action_value.push_back(std::vector<float>{0.79, -0.63, -1.13, 2.04, 1.22, -0.63, 0.6});
+        arm2_action_value.push_back(std::vector<float>{-0.82, 0.42, 1.42, -1.52, -1.32, 0.63, 0.6});
+        for(int i=0;i<6;i++){
+            msg1.joint[i] = arm1_action_value.at(0).at(i);
+            msg2.joint[i] = arm2_action_value.at(0).at(i);
+        }
+        msg1.speed = arm1_action_value.at(0).at(6);
+        msg2.speed = arm2_action_value.at(0).at(6);
+        arm1_action_pub_.publish(msg1);
+        loop_rate.sleep();
+        arm2_action_pub_.publish(msg2);
+        loop_rate.sleep();
+    }
+    else if(msg.action=="direct"){
+        ROS_INFO("Receive Arm.msg.action = 'shrug'.");
+        rm_msgs::MoveJ msg1,msg2;
+        ros::Rate loop_rate(1.5);
+        std::vector<std::vector<float>> arm1_action_value;
+        std::vector<std::vector<float>> arm2_action_value;
+        arm2_action_value.push_back(std::vector<float>{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6});
+        for(int i=0;i<6;i++){
+            msg2.joint[i] = arm2_action_value.at(0).at(i);
+        }
+        msg2.speed = arm2_action_value.at(0).at(6);
         arm2_action_pub_.publish(msg2);
         loop_rate.sleep();
     }
