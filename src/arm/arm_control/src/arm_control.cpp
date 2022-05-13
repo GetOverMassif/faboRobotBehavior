@@ -14,11 +14,8 @@
 
 #include "std_msgs/String.h"
 
-class ArmAction{
-public:
-    
+#include <ArmsActionManager.h>
 
-}
 
 class ArmControl
 {
@@ -211,8 +208,13 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "arm_control");
     ros::NodeHandle n;
-
+    ArmsActionManager arms_action_manager();
     ArmControl arm_control(n);
+
+    // std::string arm_actions_config_file = "../json/arm_action.json";
+    
+    // ArmsActionManager arms_action_manager(arm_actions_config_file);
+    // arms_action_manager.printAllActions();
 
     ros::spin();
 
