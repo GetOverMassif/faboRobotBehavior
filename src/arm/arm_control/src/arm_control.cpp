@@ -14,6 +14,12 @@
 
 #include "std_msgs/String.h"
 
+class ArmAction{
+public:
+    
+
+}
+
 class ArmControl
 {
 public:
