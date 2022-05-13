@@ -68,7 +68,8 @@
         "cinttypes": "cpp",
         "map": "cpp",
         "random": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "typeindex": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/home/lj/Documents/Indoor-mobile-robot-with-arms/devel/lib/python2.7/dist-packages",
