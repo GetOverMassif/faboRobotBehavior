@@ -125,6 +125,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  /usr/include
 #  /usr/include/
 )
 
@@ -136,6 +137,8 @@ add_library(
   include/ArmsActionManager.h
   src/ArmsActionManager.cpp
 )
+
+target_link_libraries(ArmsActionManager jsoncpp ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

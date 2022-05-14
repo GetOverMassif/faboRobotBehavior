@@ -14,7 +14,7 @@
 
 #include "std_msgs/String.h"
 
-#include <ArmsActionManager.h>
+#include "ArmsActionManager.h"
 
 
 class ArmControl
@@ -213,14 +213,14 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "arm_control");
     ros::NodeHandle n;
-    ROS_INFO("hello,main");
-    ArmsActionManager arms_action_manager();
+    string config_file = "/home/lj/Documents/Indoor-mobile-robot-with-arms/src/arm/arm_control/json/arms_actions.json";
+    ArmsActionManager arms_action_manager(config_file);
+    
 
-    // arms_action_manager.;
 
-    ArmControl arm_control(n);
+    // ArmControl arm_control(n);
 
-    // arm_control.;
+
 
     // std::string arm_actions_config_file = "../json/arm_action.json";
     

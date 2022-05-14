@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -47,31 +48,26 @@ public:
 
 class ArmsActionManager{
 public:
-    ArmsActionManager();
-    // {
-    //     cout << "hello,ArmsActionManager2" << endl;
-    //     ROS_INFO("hello,ArmsActionManager");
-        
-    //     string config_file = "../json/arm_action.json";
-    //     readinActions(config_file);
-    //     printAllActions();
-    // }
+    ArmsActionManager(const string &config_file){
+        readinActions(config_file);
+        printAllActions();
+    }
     void hello();
     
     void printAllActions();
 
 private:
     void readinActions(const string &config_file);
-    void readinArmConfig(Json::Value, std::vector<ArmConfig>*);
+    void readinArmConfig(Json::Value root,std::vector<ArmConfig>& single_arm_action);
     set<std::string> action_catalog;
     map<std::string, ArmsAction> action_library;
 };
 
-ArmsActionManager::ArmsActionManager(){
-    cout << "hello,ArmsActionManager2" << endl;
-    ROS_INFO("hello,ArmsActionManager");
+// ArmsActionManager::ArmsActionManager(){
+//     cout << "hello,ArmsActionManager2" << endl;
+//     ROS_INFO("hello,ArmsActionManager");
     
-    // string config_file = "../json/arm_action.json";
-    // readinActions(config_file);
-    // printAllActions();
-}
+//     // string config_file = "../json/arm_action.json";
+//     // readinActions(config_file);
+//     // printAllActions();
+// }
