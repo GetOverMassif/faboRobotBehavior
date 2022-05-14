@@ -3,7 +3,7 @@
     </include>
     <include file="$(find rm_bringup)/launch/rm_robot.launch">
     </include>
-	<node pkg="arm_control" name="rm_contrarm_controlol" type="arm_control" output="screen"> <!--launch-prefix="xterm−e"-->
+	<node pkg="arm_control" name="rm_contrarm_control" type="arm_control" output="screen"> <!--launch-prefix="xterm−e"-->
 	</node>
 
 </launch>

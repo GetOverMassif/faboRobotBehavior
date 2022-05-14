@@ -47,11 +47,16 @@ public:
 
 class ArmsActionManager{
 public:
-    ArmsActionManager(const string &config_file = "../json/arm_action.json"){
-        cout << "hello" << endl;
-        readinActions(config_file);
-        printAllActions();
-    }
+    ArmsActionManager();
+    // {
+    //     cout << "hello,ArmsActionManager2" << endl;
+    //     ROS_INFO("hello,ArmsActionManager");
+        
+    //     string config_file = "../json/arm_action.json";
+    //     readinActions(config_file);
+    //     printAllActions();
+    // }
+    void hello();
     
     void printAllActions();
 
@@ -61,3 +66,12 @@ private:
     set<std::string> action_catalog;
     map<std::string, ArmsAction> action_library;
 };
+
+ArmsActionManager::ArmsActionManager(){
+    cout << "hello,ArmsActionManager2" << endl;
+    ROS_INFO("hello,ArmsActionManager");
+    
+    // string config_file = "../json/arm_action.json";
+    // readinActions(config_file);
+    // printAllActions();
+}
