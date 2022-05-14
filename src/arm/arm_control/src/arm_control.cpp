@@ -21,6 +21,7 @@ class ArmControl
 {
 public:
     ArmControl(ros::NodeHandle& n);
+    void hello();
 private:
     ros::NodeHandle n_;
     ros::Subscriber subscriber_arm_;
@@ -46,6 +47,10 @@ ArmControl::ArmControl(ros::NodeHandle& n)
     arm1_action_pub_ = n_.advertise<rm_msgs::MoveJ>("rm_driver1/MoveJ_Cmd", 1000);
     arm2_action_pub_ = n_.advertise<rm_msgs::MoveJ>("rm_driver2/MoveJ_Cmd", 1000);
     ROS_INFO("Ready to hold or open hands.");
+}
+
+void ArmControl::hello(){
+    cout << "ArmControl hello" << endl; 
 }
 
 void ArmControl::arm_action_callback(const arm_control::Arms &msg)
@@ -208,15 +213,21 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "arm_control");
     ros::NodeHandle n;
+    ROS_INFO("hello,main");
     ArmsActionManager arms_action_manager();
+
+    // arms_action_manager.;
+
     ArmControl arm_control(n);
+
+    // arm_control.;
 
     // std::string arm_actions_config_file = "../json/arm_action.json";
     
-    // ArmsActionManager arms_action_manager(arm_actions_config_file);
+    // ArmsActionManager arms_action_manager();
     // arms_action_manager.printAllActions();
 
-    ros::spin();
+    // ros::spin();
 
     return 0;
 }

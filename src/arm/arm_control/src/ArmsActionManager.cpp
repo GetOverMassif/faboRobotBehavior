@@ -71,3 +71,7 @@ void ArmsActionManager::printAllActions(){
         cout << "    ],\n";
     }
 }
+
+void ArmsActionManager::hello(){
+    cout << "ArmsActionManager hello" << endl;
+}
