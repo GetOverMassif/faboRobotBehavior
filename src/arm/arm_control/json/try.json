@@ -32,23 +32,6 @@
             "right_arm_action":[
                 {"keep_still": false, "jointPos":[-0.82, 0.42, 1.42, -1.52, -1.32, 0.63], "speed": 0.6, "pausetime":0.67}
             ]
-        },
-        {
-            "name":"direct",
-            "left_arm_action":[
-                {"keep_still": false, "jointPos":[0.0, 0.5, 0.0, 0.0, 0.0, 0.0], "speed": 0.6, "pausetime":0.67}
-            ],
-            "right_arm_action":[
-            ]
-        },
-        {
-            "name":"criticize",
-            "left_arm_action":[
-                {"keep_still": false, "jointPos":[-0.57, 1.09, 1.65, -2.04, -1.24, 0.63], "speed": 0.9, "pausetime":0.67}
-            ],
-            "right_arm_action":[
-            ]
         }
     ]
 }
-

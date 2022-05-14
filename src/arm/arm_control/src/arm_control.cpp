@@ -40,7 +40,6 @@ private:
     // bool open_hand_callback(arm_control::Hand_Control::Request &req,
     //                         arm_control::Hand_Control::Response &res);
     void singleArmActionPub(ros::Publisher, std::vector<ArmConfig>);
-    void bar(int);
 };
 
 ArmControl::ArmControl(ros::NodeHandle& n)
@@ -53,35 +52,25 @@ ArmControl::ArmControl(ros::NodeHandle& n)
     ROS_INFO("Ready to hold or open hands.");
 }
 
-void ArmControl::bar(int x)
-{
-  // do stuff...
-}
-
 void ArmControl::arm_action_callback(const arm_control::Arms &msg)
 {
-    auto action_index = action_manager->get_arms_actions().find(msg.action);
-    if(action_index != action_manager->get_arms_actions().end()){
+    const auto action_library = action_manager->get_arms_actions();
+    auto action_index = action_library.find(msg.action);
+
+    if(action_index != action_library.end()){
         cout << "Receive arm_action order: " << msg.action << endl;
 
-        auto left_arm_action = action_index->second.left_arm_action;
+        auto l_arm_action = action_index->second.left_arm_action;
+        auto r_arm_action = action_index->second.right_arm_action;
 
-        std::thread left_arm_thread(&ArmControl::singleArmActionPub,this,arm1_action_pub_,action_index->second.left_arm_action);
-        std::thread right_arm_thread(&ArmControl::singleArmActionPub,this,arm2_action_pub_,action_index->second.right_arm_action);
+        std::thread left_arm_thread(&ArmControl::singleArmActionPub,this,arm1_action_pub_,l_arm_action);
+        std::thread right_arm_thread(&ArmControl::singleArmActionPub,this,arm2_action_pub_,r_arm_action);
 
-        left_arm_thread.detach();
+        left_arm_thread.join();
         right_arm_thread.join();
-
-        // rm_msgs::MoveJ msg;
-        // for(auto &arm_config:left_arm_action){
-        //     for(int i=0;i<6;i++){
-        //         msg.joint[i] = arm_config.jointPos[i];
-        //     }
-        //     msg.speed = arm_config.speed;
-        //     arm1_action_pub_.publish(msg);
-        //     arm_config.rate->sleep();
-        // }
         cout << "Complete arm_action :" << msg.action << endl;
+        cout << "----------------------------------------\n";
+        return;
     }
     else{
         cout << "Error: unavailable arm_action " << msg.action << endl;
@@ -93,9 +82,12 @@ void ArmControl::singleArmActionPub(ros::Publisher publisher,std::vector<ArmConf
 {
     rm_msgs::MoveJ msg;
     for(auto &arm_config:single_arm_actions){
+        cout << "[" ;
         for(int i=0;i<6;i++){
             msg.joint[i] = arm_config.jointPos[i];
+            cout << msg.joint[i] << ", ";
         }
+        cout << "]\n";
         msg.speed = arm_config.speed;
         publisher.publish(msg);
         arm_config.rate->sleep();
@@ -114,7 +106,6 @@ bool ArmControl::hand_callback(arm_control::Hand_Control::Request &req,
         d_output_pub_ = n_.advertise<rm_msgs::Tool_Digital_Output>(tool_d_output_str, 1000);
 
         ros::Rate loop_rate(3);
-
         rm_msgs::Tool_Digital_Output msg_d;
         rm_msgs::Tool_Analog_Output msg_a;
 
@@ -138,7 +129,6 @@ bool ArmControl::hand_callback(arm_control::Hand_Control::Request &req,
             }
             ROS_INFO("Successfully hold the hand of arm.");
         }
-
         res.has_finished = true;
         return true;
     }
@@ -153,6 +143,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "arm_control");
     ros::NodeHandle n;
     string config_file = "/home/lj/Documents/Indoor-mobile-robot-with-arms/src/arm/arm_control/json/arms_actions.json";
+    // string config_file = "/home/lj/Documents/Indoor-mobile-robot-with-arms/src/arm/arm_control/json/try.json";
     ArmsActionManager arms_action_manager(config_file);
     
     // 创建机械臂控制实例

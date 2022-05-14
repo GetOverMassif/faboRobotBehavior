@@ -50,7 +50,7 @@ class ArmsActionManager{
 public:
     ArmsActionManager(const string &config_file){
         readinActions(config_file);
-        // printAllActions();
+        printAllActions();
     }
     
     void printAllActions();
