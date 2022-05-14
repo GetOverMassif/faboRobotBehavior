@@ -4,10 +4,22 @@ void ArmsActionManager::readinActions(const string &config_file){
     cout << "start to read data." << endl;
     Json::Value root;
     Json::Reader reader;
-    ifstream ifs;
-    ifs.open(config_file.c_str());
-    if (!reader.parse(ifs, root)){
-		cout << "Fail to open arm_action config file." << endl;
+    fstream ifs(config_file);
+
+    string strjson;
+    if (!ifs.is_open()) {
+        cout << "Fail to open ifs." << endl;
+        return;
+    }
+
+    string strline;
+    while (getline(ifs, strline)) {
+        strjson += strline;
+    }
+    ifs.close();
+
+    if (!reader.parse(strjson, root)){
+		cout << "Fail to open json." << endl;
 		ifs.close();
 	}
     else{
@@ -25,11 +37,11 @@ void ArmsActionManager::readinActions(const string &config_file){
             vector<ArmConfig> left_arm_action,right_arm_action;
 
             for(int j=0; j<left_arm_action_num; j++){
-                readinArmConfig(root_i_l[j],&left_arm_action);
+                readinArmConfig(root_i_l[j],left_arm_action);
             }
 
             for(int j=0; j<right_arm_action_num; j++){
-                readinArmConfig(root_i_r[j],&right_arm_action);
+                readinArmConfig(root_i_r[j],right_arm_action);
             }
 
             action_library.insert(pair<string,ArmsAction>(action_name,ArmsAction(action_name,left_arm_action,right_arm_action)));
@@ -37,7 +49,7 @@ void ArmsActionManager::readinActions(const string &config_file){
     }
 }
 
-void readinArmConfig(Json::Value root, std::vector<ArmConfig> *single_arm_action){
+void ArmsActionManager::readinArmConfig(Json::Value root,std::vector<ArmConfig>& single_arm_action){
     bool keepStill = root["keep_still"].asBool();
     double jointPos[6];
     for(int k=0; k<6; k++){
@@ -45,7 +57,7 @@ void readinArmConfig(Json::Value root, std::vector<ArmConfig> *single_arm_action
     }
     double speed = root["speed"].asDouble();
     double pausetime = root["pausetime"].asDouble();
-    single_arm_action->push_back(ArmConfig(keepStill,jointPos,speed,pausetime));
+    single_arm_action.push_back(ArmConfig(keepStill,jointPos,speed,pausetime));
 }
 
 void ArmsActionManager::printAllActions(){
@@ -57,18 +69,18 @@ void ArmsActionManager::printAllActions(){
     cout << endl;
     cout << "\"arm_action\":[";
     for(auto &arm_action:action_library){
-        cout << "\n    {\"name\":\"" << arm_action.first << "\"," << endl;
-        cout << "    \"left_arm_action\":[";
+        cout << "\n    {\n        \"name\":\"" << arm_action.first << "\"," << endl;
+        cout << "        \"left_arm_action\":[";
         for(auto &arm_config:arm_action.second.left_arm_action){
-            cout << "{";
+            cout << "\n            {";
             cout << "\"keep_still\": " << arm_config.keepStill << ", ";
             cout << "\"jointPos\":[";
             for(int i=0;i<6;i++){
                 cout << " " << arm_config.jointPos[i] << ",";
             }
-            cout << " \"speed\": " << arm_config.speed << ",";
+            cout << "] \"speed\": " << arm_config.speed << ",}";
         }
-        cout << "    ],\n";
+        cout << "\n        ],\n    }\n";
     }
 }
 
