@@ -1,3 +1,4 @@
 uint8 Arm_Number
+bool is_open
 ---
 bool has_finished

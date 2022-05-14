@@ -50,11 +50,13 @@ class ArmsActionManager{
 public:
     ArmsActionManager(const string &config_file){
         readinActions(config_file);
-        printAllActions();
+        // printAllActions();
     }
-    void hello();
     
     void printAllActions();
+    map<std::string, ArmsAction> get_arms_actions(){
+        return action_library;
+    };
 
 private:
     void readinActions(const string &config_file);
@@ -62,12 +64,3 @@ private:
     set<std::string> action_catalog;
     map<std::string, ArmsAction> action_library;
 };
-
-// ArmsActionManager::ArmsActionManager(){
-//     cout << "hello,ArmsActionManager2" << endl;
-//     ROS_INFO("hello,ArmsActionManager");
-    
-//     // string config_file = "../json/arm_action.json";
-//     // readinActions(config_file);
-//     // printAllActions();
-// }
