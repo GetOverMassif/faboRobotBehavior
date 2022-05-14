@@ -70,6 +70,7 @@ void ArmsActionManager::printAllActions(){
     cout << "\"arm_action\":[";
     for(auto &arm_action:action_library){
         cout << "\n    {\n        \"name\":\"" << arm_action.first << "\"," << endl;
+        // left
         cout << "        \"left_arm_action\":[";
         for(auto &arm_config:arm_action.second.left_arm_action){
             cout << "\n            {";
@@ -81,9 +82,18 @@ void ArmsActionManager::printAllActions(){
             cout << "] \"speed\": " << arm_config.speed << ",}";
         }
         cout << "\n        ],\n    }\n";
+        // right
+        cout << "        \"right_arm_action\":[";
+        for(auto &arm_config:arm_action.second.right_arm_action){
+            cout << "\n            {";
+            cout << "\"keep_still\": " << arm_config.keepStill << ", ";
+            cout << "\"jointPos\":[";
+            for(int i=0;i<6;i++){
+                cout << " " << arm_config.jointPos[i] << ",";
+            }
+            cout << "] \"speed\": " << arm_config.speed << ",}";
+        }
+        cout << "\n        ],\n    }\n";
+        
     }
-}
-
-void ArmsActionManager::hello(){
-    cout << "ArmsActionManager hello" << endl;
 }
