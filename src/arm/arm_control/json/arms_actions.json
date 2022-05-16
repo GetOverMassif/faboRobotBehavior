@@ -24,6 +24,15 @@
             ]
         },
         {
+            "name":"sleep",
+            "left_arm_action":[
+                {"keep_still": false, "jointPos":[0.80, -1.56, -0.71, 1.77, 1.37, -0.63], "speed": 0.6, "pausetime":0.67}
+            ],
+            "right_arm_action":[
+                {"keep_still": false, "jointPos":[-0.80, 1.56, 0.71, -1.77, -1.37, 0.63], "speed": 0.6, "pausetime":0.67}
+            ]
+        },
+        {
             "name":"shrug",
             "left_arm_action":[
                 {"keep_still": false, "jointPos":[0.79, -0.63, -1.13, 2.04, 1.22, -0.63], "speed": 0.6, "pausetime":0.67}
@@ -96,4 +105,3 @@
         }
     ]
 }
-
