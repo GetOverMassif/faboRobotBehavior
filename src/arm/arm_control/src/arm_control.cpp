@@ -24,6 +24,7 @@ public:
     void readinArmActions(const string &config_file){
         action_manager = new ArmsActionManager(config_file);
     };
+    void callAction(const arm_control::Arms &msg);
 private:
     ros::NodeHandle n_;
     ros::Subscriber subscriber_arm_;
@@ -50,6 +51,10 @@ ArmControl::ArmControl(ros::NodeHandle& n)
     arm1_action_pub_ = n_.advertise<rm_msgs::MoveJ>("rm_driver1/MoveJ_Cmd", 1000);
     arm2_action_pub_ = n_.advertise<rm_msgs::MoveJ>("rm_driver2/MoveJ_Cmd", 1000);
     ROS_INFO("Ready to hold or open hands.");
+}
+
+void ArmControl::callAction(const arm_control::Arms &msg){
+    arm_action_callback(msg);
 }
 
 void ArmControl::arm_action_callback(const arm_control::Arms &msg)
@@ -150,6 +155,13 @@ int main(int argc, char **argv)
     ArmControl arm_control(n);
     // 加入动作
     arm_control.readinArmActions(config_file);
+    
+    sleep(2);
+
+    arm_control::Arms msg;
+    string action_str = "sleep";
+    msg.action = action_str;
+    arm_control.callAction(msg);
 
     ros::spin();
 
