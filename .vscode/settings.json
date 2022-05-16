@@ -81,5 +81,6 @@
         "string": "cpp",
         "string_view": "cpp",
         "shared_mutex": "cpp"
-    }
+    },
+    "ros.distro": "melodic"
 }
