@@ -6,6 +6,7 @@ bool joint_flag = false;
 
 void MoveJ_Callback(const rm_msgs::MoveJ msg)
 {
+    // std::cout << "!!rm_driver2 MoveJ_Callback!!" << std::endl;
     int res = 0;
     int i = 0;
     byte speed;
@@ -405,7 +406,7 @@ int main(int argc, char **argv)
 /***** ********************************END****************************************/
 
     //publisher
-    Joint_State = nh_.advertise<sensor_msgs::JointState>("joint_states", 300);
+    Joint_State = nh_.advertise<sensor_msgs::JointState>("/rm_driver2/joint_states", 300);
     Arm_IO_State = nh_.advertise<rm_msgs::Arm_IO_State>("/rm_driver2/Arm_IO_State", 1);
     Tool_IO_State = nh_.advertise<rm_msgs::Tool_IO_State>("/rm_driver2/Tool_IO_State", 1);
     Plan_State = nh_.advertise<rm_msgs::Plan_State>("/rm_driver2/Plan_State", 1);

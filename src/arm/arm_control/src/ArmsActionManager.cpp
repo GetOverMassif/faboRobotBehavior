@@ -92,6 +92,7 @@ void ArmsActionManager::printAllActions(){
                 cout << " " << arm_config.jointPos[i] << ",";
             }
             cout << "] \"speed\": " << arm_config.speed << ",}";
+            cout << "] \"pause_time\": " << arm_config.pause_time->nsec << ",}";
         }
         cout << "\n        ],\n    }\n";
         

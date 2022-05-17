@@ -95,7 +95,8 @@ void ArmControl::singleArmActionPub(ros::Publisher publisher,std::vector<ArmConf
         cout << "]\n";
         msg.speed = arm_config.speed;
         publisher.publish(msg);
-        arm_config.rate->sleep();
+        cout << "wait" << endl;
+        arm_config.pause_time->sleep();
     }
 }
 

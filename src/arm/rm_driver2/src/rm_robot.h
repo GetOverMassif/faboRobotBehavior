@@ -288,6 +288,7 @@ int SendTurtleCtrCmd(std::string message_type, std::string robot_mac_address, fl
 //关节空间规划
 int Movej_Cmd(float *joint, byte v)
 {
+    // std::cout << "!!rm_driver2 Movej_Cmd!!" << std::endl;
     cJSON *root, *array;
     char* data;
     char buffer[200];
@@ -314,6 +315,7 @@ int Movej_Cmd(float *joint, byte v)
 
     sprintf(buffer, "%s\r\n", data);
     res = send(Arm_Socket, buffer, strlen(buffer), 0);
+    // std::cout << "res = " << res << std::endl;
 
     if(res < 0)
     {

@@ -26,12 +26,12 @@ public:
         for(int i=0 ; i<6 ; i++)
             jointPos[i] = *(joint_position+i);
         speed = move_speed;
-        rate = new ros::Rate(1.0/pauseTime);
+        pause_time = new ros::Duration(pauseTime);
     }
     bool keepStill;
     double jointPos[6];
     double speed;
-    ros::Rate *rate;
+    ros::Duration *pause_time;
 };
 
 class ArmsAction{
