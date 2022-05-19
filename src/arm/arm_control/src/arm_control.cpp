@@ -7,6 +7,7 @@
 #include <vector>
 #include "ros/ros.h"
 #include "arm_control/Hand_Control.h"
+#include <rm_msgs/Plan_State.h>
 #include <rm_msgs/Tool_Analog_Output.h>
 #include <rm_msgs/Tool_Digital_Output.h>
 #include <rm_msgs/MoveJ.h>
@@ -28,6 +29,8 @@ public:
 private:
     ros::NodeHandle n_;
     ros::Subscriber subscriber_arm_;
+    ros::Subscriber subscriber_arm1_arrival_;
+    ros::Subscriber subscriber_arm2_arrival_;
     ros::ServiceServer service_hold_hand_;
     ros::ServiceServer service_open_hand_;
     ros::Publisher d_output_pub_;
@@ -38,15 +41,19 @@ private:
     void arm_action_callback(const arm_control::Arms &msg);
     bool hand_callback(arm_control::Hand_Control::Request &req,
                             arm_control::Hand_Control::Response &res);
-    // bool open_hand_callback(arm_control::Hand_Control::Request &req,
-    //                         arm_control::Hand_Control::Response &res);
-    void singleArmActionPub(ros::Publisher, std::vector<ArmConfig>);
+    void arm1_arrival_callback(const rm_msgs::Plan_State &msg);
+    void arm2_arrival_callback(const rm_msgs::Plan_State &msg);
+    void singleArmActionPub(ros::Publisher, std::vector<ArmConfig>, int arm_number);
+
+    bool arm_finished[2] = {false,false};
 };
 
 ArmControl::ArmControl(ros::NodeHandle& n)
 {
     n_ = n;
     subscriber_arm_ = n_.subscribe("/arm_action", 1000, &ArmControl::arm_action_callback, this);
+    subscriber_arm1_arrival_ = n_.subscribe("/rm_driver1/Plan_State", 1000, &ArmControl::arm1_arrival_callback, this);
+    subscriber_arm2_arrival_ = n_.subscribe("/rm_driver2/Plan_State", 1000, &ArmControl::arm2_arrival_callback, this);
     service_hold_hand_ = n_.advertiseService("hand_control", &ArmControl::hand_callback,this);
     arm1_action_pub_ = n_.advertise<rm_msgs::MoveJ>("rm_driver1/MoveJ_Cmd", 1000);
     arm2_action_pub_ = n_.advertise<rm_msgs::MoveJ>("rm_driver2/MoveJ_Cmd", 1000);
@@ -68,8 +75,8 @@ void ArmControl::arm_action_callback(const arm_control::Arms &msg)
         auto l_arm_action = action_index->second.left_arm_action;
         auto r_arm_action = action_index->second.right_arm_action;
 
-        std::thread left_arm_thread(&ArmControl::singleArmActionPub,this,arm1_action_pub_,l_arm_action);
-        std::thread right_arm_thread(&ArmControl::singleArmActionPub,this,arm2_action_pub_,r_arm_action);
+        std::thread left_arm_thread(&ArmControl::singleArmActionPub,this,arm1_action_pub_,l_arm_action,1);
+        std::thread right_arm_thread(&ArmControl::singleArmActionPub,this,arm2_action_pub_,r_arm_action,2);
 
         left_arm_thread.join();
         right_arm_thread.join();
@@ -83,7 +90,7 @@ void ArmControl::arm_action_callback(const arm_control::Arms &msg)
     }
 }
 
-void ArmControl::singleArmActionPub(ros::Publisher publisher,std::vector<ArmConfig> single_arm_actions)
+void ArmControl::singleArmActionPub(ros::Publisher publisher,std::vector<ArmConfig> single_arm_actions, int arm_number)
 {
     rm_msgs::MoveJ msg;
     for(auto &arm_config:single_arm_actions){
@@ -95,6 +102,15 @@ void ArmControl::singleArmActionPub(ros::Publisher publisher,std::vector<ArmConf
         cout << "]\n";
         msg.speed = arm_config.speed;
         publisher.publish(msg);
+
+        // ros::Duration(1.0).sleep();
+
+        // while(!arm_finished[arm_number-1]){
+        //     ros::Duration(1.0).sleep();
+        // }
+        // // 等待收到 topic : /rm_driver1/Plan_State
+        // arm_finished[arm_number-1] = false;
+
         cout << "wait" << endl;
         arm_config.pause_time->sleep();
     }
@@ -142,6 +158,16 @@ bool ArmControl::hand_callback(arm_control::Hand_Control::Request &req,
         ROS_INFO("Wrong Arm_Number in ros service /hand_Control.");
         return false;
     }
+}
+
+void ArmControl::arm1_arrival_callback(const rm_msgs::Plan_State &msg){
+    // arm_finished[0] = true;
+    // ROS_INFO("arm_finished[0] = true;");
+}
+
+void ArmControl::arm2_arrival_callback(const rm_msgs::Plan_State &msg){
+    // arm_finished[1] = true;
+    // ROS_INFO("arm_finished[1] = true;");
 }
 
 int main(int argc, char **argv)
