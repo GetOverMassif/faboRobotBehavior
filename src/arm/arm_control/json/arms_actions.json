@@ -3,12 +3,12 @@
         {
             "name":"wave",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 0.8, "pausetime":1.9},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 0.9, "pausetime":0.9},
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 0.8, "pausetime":1.5},
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0.75},
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0.75},
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0.75},
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0.75},
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 0.9, "pausetime":0.75},
                 {"keep_still": false, "jointPos":[0.57, -1.09, -1.65, 2.04, 1.24, -0.63], "speed": 0.8, "pausetime":0.9}
             ],
             "right_arm_action":[
