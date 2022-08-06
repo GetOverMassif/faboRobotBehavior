@@ -1,0 +1,2 @@
+string hehavior_name
+int8 behavior_phase
