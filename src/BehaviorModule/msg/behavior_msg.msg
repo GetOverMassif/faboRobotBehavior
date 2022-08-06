@@ -1,0 +1,11 @@
+string name
+string type
+int8 behavior_phase
+bool disableGaze
+bool disableEmotion
+bool disableVoice
+bool disableManipulator
+bool disableMover
+string target
+string speech
+string rob_emotion
