@@ -1,0 +1,12 @@
+﻿,,,,,必要占用定义,,,,
+,英文名称,权重,类型,是否为轻行为,视线 Gaze,表情 Emotion,声音 Voice,操作 Manipulator,移动 Mover
+迎接问好,Greet,0.9,INTERACTION,false,true,true,true,ture,false
+测量体温,MeasureBodyTemperature,0.7,INTERACTION,false,true,false,true,false,true
+漫步,Hangout,0.2,EXPRESSION,true,false,true,false,false,true
+问答,QuestionAndAnswer,0.65,INTERACTION,false,false,false,true,false,false
+家长验证,ParentsValidation,0.6,INTERACTION,false,true,true,false,false,true
+维持秩序,KeepOrder,0.8,INTERACTION,false,true,true,true,ture,true
+阻止陌生人,StopStrangers,0.85,INTERACTION,false,true,true,false,ture,true
+疑问,Query,0.4,EXPRESSION,true,false,false,true,false,false
+聊天,Chat,0.5,INTERACTION,true,true,false,true,false,false
+充电,Charge,0.95,OPERATION,false,false,false,false,false,true

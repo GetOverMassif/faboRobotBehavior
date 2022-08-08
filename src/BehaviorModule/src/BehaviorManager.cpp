@@ -65,6 +65,12 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
             sub_behavior.mover.weight = root_sub_j["Mover"]["weight"].asDouble();
 
             sub_behaviors.push_back(sub_behavior);
+
+            behavior.necessary_count[0] += sub_behavior.gaze.is_necessary?1:0;
+            behavior.necessary_count[1] += sub_behavior.emotion.is_necessary?1:0;
+            behavior.necessary_count[2] += sub_behavior.voice.is_necessary?1:0;
+            behavior.necessary_count[3] += sub_behavior.manipulator.is_necessary?1:0;
+            behavior.necessary_count[4] += sub_behavior.mover.is_necessary?1:0;
         }
         
         behavior.subBehaviorSeries = sub_behaviors;
@@ -77,7 +83,7 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
 bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
 {
     string need_name = msg.need_name;
-    cout << "Get need : " << need_name << endl;
+    // cout << "Get need : " << need_name << endl;
 
     // 1. Query the need in behavior_library.
     auto behavior_index = behavior_library.find(need_name);
@@ -102,24 +108,23 @@ bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
 void BehaviorManager::addNewBehavior(Behavior new_behavior)
 {
     // Judge if behaviorSeries is empty.
-    if(behaviorSeries.empty()){
-        behaviorSeries.push_back(new_behavior);
-        parallelNum = 1;
-        updateBehaviorPub();
-    }else{
+    if(!behaviorSeries.empty()){
         // Judge if a light behavior exists.
         if(behaviorSeries[0].is_light){
             behaviorSeries.clear();
-            behaviorSeries.push_back(new_behavior);
+            insertBehavior(new_behavior);
             parallelNum = 1;
             updateBehaviorPub();
+            return;
         }
     }
     
     // When behaviorSeries is not empty and there's no light behavior.
     int insertLocation = insertBehavior(new_behavior);
     parallelNum = computeParallel();
-    if (insertLocation == parallelNum){
+    cout << "insertLocation = " << insertLocation << endl; 
+    cout << "parallelNum = " << parallelNum << endl; 
+    if (insertLocation <= parallelNum){
         updateBehaviorPub();
     }
     return;
@@ -133,10 +138,16 @@ void BehaviorManager::updateBehaviorPub()
         return;
     }
     BehaviorModule::behavior_msg msg;
+    if (!parallelBehaviorSeries.empty()){
+        msg.name = "Stop";
+        publisher_behavior_.publish(msg);
+    }
+    msg.behavior_phase = behaviorSeries[0].behavior_phase;
     msg.name = behaviorSeries[0].name;
     msg.type = behaviorSeries[0].type;
+
     publisher_behavior_.publish(msg);
-    cout << "我正在执行：" << behaviorSeries[0].name << endl;
+    cout << "发出执行指令：" << behaviorSeries[0].name << endl;
 
 }
 
@@ -201,14 +212,20 @@ int BehaviorManager::insertBehavior(Behavior &new_behavior)
 {
     int index = 0;
     int num = behaviorSeries.size();
+    if(!num){
+        behaviorSeries.push_back(new_behavior);
+        printCurrentSeries();
+        return 1;
+    }
     double new_weight = new_behavior.weight;
-    while(behaviorSeries[index].weight > new_weight && index < num ){
-        i++;
+    while(behaviorSeries[index].weight >= new_weight && index < num ){
+        index++;
     }
 
     if(index==num){
         behaviorSeries.push_back(new_behavior);
-        return size;
+        printCurrentSeries();
+        return index + 1;
     }
     else{
         behaviorSeries.push_back(behaviorSeries.back());
@@ -217,12 +234,47 @@ int BehaviorManager::insertBehavior(Behavior &new_behavior)
         behaviorSeries[i] = behaviorSeries[i - 1];
     }
     behaviorSeries[index] = new_behavior;
+    printCurrentSeries();
     return index + 1;
 }
 
 int BehaviorManager::computeParallel()
 {
-    int parallel_num = 1;
-    
+    int parallel_num = 0;
+    vector<int> count = {0,0,0,0,0};
+    for (auto &behavior:behaviorSeries)
+    {
+        for(int i = 0 ; i < 5 ; i++){
+            count[i] += behavior.necessary_count[i]?1:0;
+            if(count[i]>1){
+                return parallel_num;
+            }
+        }
+        parallel_num ++;
+    }
     return parallel_num;
+}
+
+void BehaviorManager::printCurrentSeries()
+{
+    if(behaviorSeries.empty()){
+        cout << "BehaviorSeries is empty now." << endl;
+        return;
+    }
+    cout << endl;
+    cout << "Order\t" << "weight\t" << "num\t" << "necessary\t" << "name\t" << endl;
+    int order = 1;
+    for(auto behavior:behaviorSeries){
+        cout << order << "\t" 
+             << behavior.weight << "\t"
+             << behavior.subBehaviorSeries.size() << "\t"
+             << "{" << behavior.necessary_count[0] ;
+        for(int i = 1 ; i < 5 ; i++){
+            cout << "," << behavior.necessary_count[i];
+        }
+        cout << "} " << "\t" << behavior.name << "\t" << endl;
+        order ++;
+    }
+    cout << endl;
+    return;
 }
