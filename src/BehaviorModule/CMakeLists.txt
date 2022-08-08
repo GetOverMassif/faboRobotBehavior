@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(BehaviorModule)
 
+## Compile as C++11, supported in ROS Kinetic and newer
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
     message(STATUS "optional:-std=c++11")   
@@ -53,6 +54,7 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
+
 add_message_files(
   FILES
   need_msg.msg
@@ -75,6 +77,7 @@ add_message_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
+
 generate_messages(
   DEPENDENCIES
   std_msgs
@@ -156,6 +159,7 @@ add_library(
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
+
 target_link_libraries(BehaviorManager jsoncpp ${catkin_LIBRARIES})
 
 add_executable(behavior_node src/behavior_node.cpp)

@@ -37,7 +37,7 @@ BehaviorNode::BehaviorNode(ros::NodeHandle& n)
 
 void BehaviorNode::need_for_behavior_callback(const BehaviorModule::need_msg &msg)
 {
-    cout << "I receive a need_msg;" << endl;
+    // cout << "I receive a need_msg;" << endl;
     if(behaviorManager_->readInNewNeed(msg)){
         cout << "Successfully read in the need msg." << endl;
     }
