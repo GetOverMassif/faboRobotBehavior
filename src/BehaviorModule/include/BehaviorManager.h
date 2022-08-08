@@ -19,7 +19,7 @@ struct need{
 };
 
 enum needtype{
-    EXPRESS_NEED = 0,
+    EXPRESSION_NEED = 0,
     INTERATION_NEED = 1,
     OPERATION_NEED = 2
 };
@@ -93,13 +93,9 @@ public:
     string type;
     bool is_light;
     string target;
+    int behavior_phase = 0;
     vector<SubBehavior> subBehaviorSeries;  // 子行为序列
-    // bool interruptType;  // 行为打断类型（紧急打断/非紧急打断）
-    // int execute_flag;  // 执行进度标志
-    // vector<bool> exist_f_transition;  //是否存在过渡行为
-    // vector<bool> exist_b_transition;  //是否存在过渡行为
-    // vector<SubBehavior*> ;  // 前置过渡行为；
-    // vector<SubBehavior*> ;  // 后置过渡行为；
+    vector<int> necessary_count = {0,0,0,0,0};
 };
 
 // 行为管理
@@ -123,6 +119,7 @@ private:
     void addNewBehavior(Behavior new_behavior);
     void behavior_feedback_callback(const BehaviorModule::behavior_feedback_msg &msg);
     int insertBehavior(Behavior &new_behavior);
+    void printCurrentSeries();
     set<std::string> behavior_catalog;
     map<string,Behavior> behavior_library;
     vector<Behavior> behaviorSeries;

@@ -8,20 +8,20 @@
             "subBehavior":[
                 {
                     "discription"   : "Look at and wave to target person.",
-                    "Gaze"               : {"is_necessary" : true,  "weight" : 1.0},
+                    "Gaze"          : {"is_necessary" : true,  "weight" : 1.0},
                     "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
-                    "Voice"              : {"is_necessary" : false,  "weight" : 0.5},
-                    "Manipulator": {"is_necessary" : true,  "weight" : 1.0},
-                    "Mover"            : {"is_necessary" : false,  "weight" : 0.5}
+                    "Voice"         : {"is_necessary" : false, "weight" : 0.5},
+                    "Manipulator"   : {"is_necessary" : true,  "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : false, "weight" : 0.5}
                 },
                 {
                     "discription"   : "Say hello.",
-                    "Gaze"               : {"is_necessary" : true,  "weight" : 1.0},
+                    "Gaze"          : {"is_necessary" : true,  "weight" : 1.0},
                     "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
-                    "Voice"              : {"is_necessary" : true,  "weight" : 1.0,
-                                                     "content" : "Hello"},
-                    "Manipulator": {"is_necessary" : false,  "weight" : 1.0},
-                    "Mover"            : {"is_necessary" : false,  "weight" : 1.0}
+                    "Voice"         : {"is_necessary" : true,  "weight" : 1.0,
+                                       "content" : "Hello"},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : false, "weight" : 1.0}
                 }
             ]
         },
@@ -33,37 +33,157 @@
             "subBehavior":[
                 {
                     "discription"   : "Move to the person who needs to be measured.",
-                    "Gaze"               : {"is_necessary" : false,  "weight" : 1.0},
-                    "Emotion"       : {"is_necessary" : false,  "weight" : 1.0},
-                    "Voice"              : {"is_necessary" : false,  "weight" : 1.0},
-                    "Manipulator": {"is_necessary" : false,  "weight" : 1.0},
-                    "Mover"            : {"is_necessary" : true,  "weight" : 1.0}
+                    "Gaze"          : {"is_necessary" : false, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : false, "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : false, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
                 },
                 {
                     "discription"   : "Tell the intention to measure the body temporature.",
-                    "Gaze"               : {"is_necessary" : true,  "weight" : 1.0},
+                    "Gaze"          : {"is_necessary" : true,  "weight" : 1.0},
                     "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
-                    "Voice"              : {"is_necessary" : true,  "weight" : 1.0,
-                                                     "content" : "Let me measure your body temporature"},
-                    "Manipulator": {"is_necessary" : false,  "weight" : 1.0},
-                    "Mover"            : {"is_necessary" : true,  "weight" : 1.0}
+                    "Voice"         : {"is_necessary" : true,  "weight" : 1.0,
+                                       "content" : "Let me measure your body temporature"},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
                 },
                 {
                     "discription"   : "Measure temporature.",
-                    "Gaze"               : {"is_necessary" : true,  "weight" : 1.0},
-                    "Emotion"       : {"is_necessary" : false,  "weight" : 1.0},
-                    "Voice"              : {"is_necessary" : false,  "weight" : 1.0},
-                    "Manipulator": {"is_necessary" : false,  "weight" : 1.0},
-                    "Mover"            : {"is_necessary" : true,  "weight" : 1.0}
+                    "Gaze"          : {"is_necessary" : true,  "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : false, "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : false, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
                 },
                 {
                     "discription"   : "Inform the temporature.",
-                    "Gaze"               : {"is_necessary" : false,  "weight" : 1.0},
+                    "Gaze"          : {"is_necessary" : false, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : false, "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : true,  "weight" : 1.0,
+                                       "content" : "Your temporature is 36℃, you can get inside the school."},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : false, "weight" : 1.0}
+                }
+            ]
+        },{
+            "name" : "Hangout",
+            "weight" : 0.2,
+            "type" : "EXPRESSION",
+            "is_light": true,
+            "subBehavior":[
+                {
+                    "discription"   : "Hangout.",
+                    "Gaze"          : {"is_necessary" : false, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : false, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
+                }
+            ]
+        },{
+            "name" : "QuestionAndAnswer",
+            "weight" : 0.65,
+            "type" : "INTERACTION",
+            "is_light": false,
+            "subBehavior":[
+                {
+                    "discription"   : "QuestionAndAnswer.",
+                    "Gaze"          : {"is_necessary" : false, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : false, "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : true,  "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : false, "weight" : 1.0}
+                }
+            ]
+        },{
+            "name" : "ParentsValidation",
+            "weight" : 0.60,
+            "type" : "INTERACTION",
+            "is_light": false,
+            "subBehavior":[
+                {
+                    "discription"   : "ParentsValidation.",
+                    "Gaze"          : {"is_necessary" : true, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : false, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
+                }
+            ]
+        },{
+            "name" : "KeepOrder",
+            "weight" : 0.80,
+            "type" : "INTERACTION",
+            "is_light": false,
+            "subBehavior":[
+                {
+                    "discription"   : "KeepOrder.",
+                    "Gaze"          : {"is_necessary" : true, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : true, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : true, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
+                }
+            ]
+        },{
+            "name" : "StopStrangers",
+            "weight" : 0.85,
+            "type" : "INTERACTION",
+            "is_light": false,
+            "subBehavior":[
+                {
+                    "discription"   : "StopStrangers.",
+                    "Gaze"          : {"is_necessary" : true, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : false, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : true, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
+                }
+            ]
+        },{
+            "name" : "Query",
+            "weight" : 0.40,
+            "type" : "EXPRESSION",
+            "is_light": true,
+            "subBehavior":[
+                {
+                    "discription"   : "Query.",
+                    "Gaze"          : {"is_necessary" : false, "weight" : 1.0},
                     "Emotion"       : {"is_necessary" : false,  "weight" : 1.0},
-                    "Voice"              : {"is_necessary" : true,  "weight" : 1.0,
-                                                     "content" : "Your temporature is 36℃, you can get inside the school."},
-                    "Manipulator": {"is_necessary" : false,  "weight" : 1.0},
-                    "Mover"            : {"is_necessary" : false,  "weight" : 1.0}
+                    "Voice"         : {"is_necessary" : true, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : false,  "weight" : 1.0}
+                }
+            ]
+        },{
+            "name" : "Chat",
+            "weight" : 0.50,
+            "type" : "INTERACTION",
+            "is_light": false,
+            "subBehavior":[
+                {
+                    "discription"   : "Chat.",
+                    "Gaze"          : {"is_necessary" : true, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : false,  "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : true, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : false,  "weight" : 1.0}
+                }
+            ]
+        },{
+            "name" : "Charge",
+            "weight" : 0.95,
+            "type" : "OPERATION",
+            "is_light": false,
+            "subBehavior":[
+                {
+                    "discription"   : "Charge.",
+                    "Gaze"          : {"is_necessary" : false, "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : false,  "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : false, "weight" : 1.0},
+                    "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
                 }
             ]
         }
