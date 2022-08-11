@@ -141,14 +141,28 @@ void BehaviorManager::updateBehaviorPub()
     if (!parallelBehaviorSeries.empty()){
         msg.name = "Stop";
         publisher_behavior_.publish(msg);
+        printMsgInfo(msg);
     }
-    msg.behavior_phase = behaviorSeries[0].behavior_phase;
-    msg.name = behaviorSeries[0].name;
-    msg.type = behaviorSeries[0].type;
+    vector<BehaviorModule::behavior_msg> msgs;
+    for(int i = 0 ; i < parallelNum ; i++){
+        msg.name = behaviorSeries[i].name;
+        msg.type = behaviorSeries[i].type;
+        msg.behavior_phase = behaviorSeries[i].behavior_phase;
+        // msg.occupancy = new int8[5];
+        for(int j = 0 ; j < 5 ; j++) {msg.occupancy[j] = 1;}
+        msgs.push_back(msg);
+    }
 
-    publisher_behavior_.publish(msg);
-    cout << "发出执行指令：" << behaviorSeries[0].name << endl;
+    for(int i = 0 ; i < 5 ; i++){
+        msgs[occupancy[i]-1].occupancy[i] = 1;
+    }
 
+    for(auto &one_msg:msgs)
+    {
+        publisher_behavior_.publish(one_msg);
+        printMsgInfo(one_msg);
+    }
+    return;
 }
 
 // Handle feedback from PerformModule:
@@ -242,10 +256,14 @@ int BehaviorManager::computeParallel()
 {
     int parallel_num = 0;
     vector<int> count = {0,0,0,0,0};
+    occupancy = vector<int>{1,1,1,1,1};
     for (auto &behavior:behaviorSeries)
     {
         for(int i = 0 ; i < 5 ; i++){
-            count[i] += behavior.necessary_count[i]?1:0;
+            if(behavior.necessary_count[i]){
+                count[i] += 1;
+                occupancy[i] = parallel_num;
+            }
             if(count[i]>1){
                 return parallel_num;
             }
@@ -276,5 +294,16 @@ void BehaviorManager::printCurrentSeries()
         order ++;
     }
     cout << endl;
+    return;
+}
+
+void BehaviorManager::printMsgInfo(BehaviorModule::behavior_msg msg)
+{
+    cout << msg.name << "\t" << msg.type << "\t" << msg.behavior_phase << "\t";
+    cout << "{" << msg.occupancy[0];
+    for(int i = 1 ; i < 5 ; i++){
+        cout << "," << msg.occupancy[i];
+    }
+    cout << "}" << endl;
     return;
 }

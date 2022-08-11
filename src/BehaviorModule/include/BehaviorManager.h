@@ -2,6 +2,7 @@
 #include "ros/ros.h"
 #include <jsoncpp/json/json.h>
 #include <string>
+// #include <std_msgs/>
 #include <vector>
 #include <fstream>
 #include <BehaviorModule/need_msg.h>
@@ -120,10 +121,12 @@ private:
     void behavior_feedback_callback(const BehaviorModule::behavior_feedback_msg &msg);
     int insertBehavior(Behavior &new_behavior);
     void printCurrentSeries();
+    void printMsgInfo(BehaviorModule::behavior_msg);
     set<std::string> behavior_catalog;
     map<string,Behavior> behavior_library;
     vector<Behavior> behaviorSeries;
     vector<Behavior> parallelBehaviorSeries;
+    vector<int> occupancy = {1,1,1,1,1};
     int computeParallel();
     bool behaviorChangeFlag = false;
     int parallelNum = 1;
