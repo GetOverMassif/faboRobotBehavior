@@ -95,6 +95,7 @@ public:
     bool is_light;
     string target;
     int behavior_phase = 0;
+    int total_phase;
     vector<SubBehavior> subBehaviorSeries;  // 子行为序列
     vector<int> necessary_count = {0,0,0,0,0};
 };
