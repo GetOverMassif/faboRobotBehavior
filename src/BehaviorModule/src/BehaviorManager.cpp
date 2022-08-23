@@ -244,6 +244,7 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
                 if(mvCurrentBehaviors.empty() && !behaviorSeries.empty()){
                     parallelNum = 1;
                     occupancy = {1,1,1,1,1};
+                    pauseFlag = false;
                     updateBehaviorPub();
                 }
             }
