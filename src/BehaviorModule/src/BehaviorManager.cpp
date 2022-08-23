@@ -143,20 +143,31 @@ void BehaviorManager::updateBehaviorPub()
     if (behaviorSeries.empty()){
         return;
     }
+
     BehaviorModule::behavior_msg msg;
-    if (behaviorChangeFlag){
-        msg.name = "Stop";
-        publisher_behavior_.publish(msg);
-        printMsgInfo(msg);
+
+    if (!mvCurrentBehaviors.empty()){
+        if(!pauseFlag)
+        {
+            msg.name = "Pause";
+            publisher_behavior_.publish(msg);
+            printMsgInfo(msg);
+            pauseFlag = true;
+            cout << "Set pauseFlag true.\n\n";
+        }
+        return;
     }
+
     vector<BehaviorModule::behavior_msg> msgs;
 
     for(int i = 0 ; i < parallelNum ; i++){
+        mvCurrentBehaviors.push_back(behaviorSeries[i]);
+
         msg.name = behaviorSeries[i].name;
         msg.type = behaviorSeries[i].type;
         msg.behavior_phase = behaviorSeries[i].behavior_phase;
         msg.total_phase = behaviorSeries[i].total_phase;
-        for(int j = 0 ; j < 5 ; j++) {
+        for(int j = 0 ; j < 5 ; j ++) {
             msg.occupancy[j] = 0;
         }
         msgs.push_back(msg);
@@ -174,8 +185,7 @@ void BehaviorManager::updateBehaviorPub()
         publisher_behavior_.publish(one_msg);
         printMsgInfo(one_msg);
     }
-
-    behaviorChangeFlag = true;
+    
     return;
 }
 
@@ -186,38 +196,63 @@ void BehaviorManager::updateBehaviorPub()
 void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_feedback_msg &msg)
 {
     cout << "【BehaviorFeedback】" << msg.hehavior_name << "," << (int)msg.behavior_phase << endl;
+
+    bool rightBehaviorFlag = false;
     string behavior_name = msg.hehavior_name;
     vector<Behavior>::iterator itor = behaviorSeries.begin();
-    for (int i = 0 ; i < parallelNum ; i++){
-        if(behaviorSeries[i].name == behavior_name){
-            if(msg.behavior_phase == behaviorSeries[i].total_phase){
-                // finish one behavior
-                int num = behaviorSeries.size();
-                behaviorSeries.erase(itor);
-                // for (int j = i ; j < num - 1 ; j++) {behaviorSeries[i] = behaviorSeries[i+1];}
-                parallelNum--;
-                if(parallelNum == 0 && !behaviorSeries.empty()){
-                    behaviorChangeFlag = false;
-                    parallelNum = 1;
-                    occupancy = {1,1,1,1,1};
-                    updateBehaviorPub();
+
+    for (auto &behavior : behaviorSeries){
+        if(behavior.name == behavior_name){
+            rightBehaviorFlag = true;
+            if(msg.behavior_phase > behavior.behavior_phase && 
+                            msg.behavior_phase <= behavior.total_phase)
+            {
+                behavior.behavior_phase = msg.behavior_phase;
+                if (msg.behavior_phase == behavior.total_phase)
+                {
+                    behaviorSeries.erase(itor);
                 }
                 printCurrentSeries();
-                return;
+                break;
             }
-            else if(msg.behavior_phase > 0 && msg.behavior_phase < behaviorSeries[i].total_phase){
-                behaviorSeries[i].behavior_phase = msg.behavior_phase;
-                printCurrentSeries();
-                return;
-            }
-            else{
+            else
+            {
                 cout << "Right behavior, wrong phase." << endl;
                 return;
             }
         }
         itor++;
     }
-    cout << "Wrong behavior." << endl;
+
+    if (!rightBehaviorFlag){
+        cout << "No behavior \"" << msg.hehavior_name << "\" in the whole behavior series." << endl;
+        return;
+    }
+
+    rightBehaviorFlag = false;
+    itor = mvCurrentBehaviors.begin();
+
+    for (auto &behavior : mvCurrentBehaviors){
+        if(behavior.name == behavior_name){
+
+            rightBehaviorFlag = false;
+            behavior.behavior_phase = msg.behavior_phase;
+
+            if (msg.behavior_phase == behavior.total_phase || pauseFlag){
+                // finish one behavior
+                mvCurrentBehaviors.erase(itor);
+                if(mvCurrentBehaviors.empty() && !behaviorSeries.empty()){
+                    parallelNum = 1;
+                    occupancy = {1,1,1,1,1};
+                    updateBehaviorPub();
+                }
+            }
+            printCurrentSeries();
+            return;
+        }
+        itor++;
+    }
+    cout << "No behavior \"" << msg.hehavior_name << "\" in current behavior series to be paused." << endl;
     return;
 }
 
@@ -344,7 +379,7 @@ void BehaviorManager::printCurrentSeries()
         cout << "} " << "\t" << behavior.name << "\t" << endl;
         order ++;
     }
-    cout << "parallelNum : " << parallelNum << endl;
+    cout << "parallelNum : " << mvCurrentBehaviors.size() << endl;
     cout << endl;
     return;
 }

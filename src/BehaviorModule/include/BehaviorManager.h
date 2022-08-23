@@ -126,9 +126,10 @@ private:
     set<std::string> behavior_catalog;
     map<string,Behavior> behavior_library;
     vector<Behavior> behaviorSeries;
-    vector<Behavior> parallelBehaviorSeries;
+    vector<Behavior> mvCurrentBehaviors;
     vector<int> occupancy = {1,1,1,1,1};
     int computeParallel();
-    bool behaviorChangeFlag = false;
+    // bool behaviorChangeFlag = false;
+    bool pauseFlag = false;
     int parallelNum = 1;
 };
