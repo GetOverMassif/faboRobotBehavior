@@ -1,11 +1,8 @@
 string name
 string type
-int8 behavior_phase
-bool disableGaze
-bool disableEmotion
-bool disableVoice
-bool disableManipulator
-bool disableMover
+int8 current_phase
+int8 total_phase
+int8[5] occupancy
 string target
 string speech
 string rob_emotion
