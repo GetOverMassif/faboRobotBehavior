@@ -1,2 +1,2 @@
 string hehavior_name
-int8 behavior_phase
+int8 current_phase

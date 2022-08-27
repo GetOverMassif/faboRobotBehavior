@@ -39,13 +39,6 @@ void BehaviorNode::need_for_behavior_callback(const BehaviorModule::need_msg &ms
 {
     cout << "【Received need_msg】" << msg.need_name << endl << endl;
     behaviorManager_->readInNewNeed(msg);
-
-    // if(behaviorManager_->readInNewNeed(msg)){
-    //     cout << "Successfully read in the need msg." << endl;
-    // }
-    // else{
-    //     cout << "Fail to read in the need msg." << endl;
-    // }
     return;
 }
 

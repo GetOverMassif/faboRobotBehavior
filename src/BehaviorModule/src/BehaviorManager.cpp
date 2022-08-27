@@ -165,7 +165,7 @@ void BehaviorManager::updateBehaviorPub()
 
         msg.name = behaviorSeries[i].name;
         msg.type = behaviorSeries[i].type;
-        msg.behavior_phase = behaviorSeries[i].behavior_phase;
+        msg.current_phase = behaviorSeries[i].current_phase;
         msg.total_phase = behaviorSeries[i].total_phase;
         for(int j = 0 ; j < 5 ; j ++) {
             msg.occupancy[j] = 0;
@@ -195,7 +195,7 @@ void BehaviorManager::updateBehaviorPub()
 // 3. Start function updateBehaviorPub when necessary.
 void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_feedback_msg &msg)
 {
-    cout << "【BehaviorFeedback】" << msg.hehavior_name << "," << (int)msg.behavior_phase << endl;
+    cout << "【BehaviorFeedback】" << msg.hehavior_name << "," << (int)msg.current_phase << endl;
 
     bool rightBehaviorFlag = false;
     string behavior_name = msg.hehavior_name;
@@ -204,11 +204,11 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
     for (auto &behavior : behaviorSeries){
         if(behavior.name == behavior_name){
             rightBehaviorFlag = true;
-            if(msg.behavior_phase > behavior.behavior_phase && 
-                            msg.behavior_phase <= behavior.total_phase)
+            if(msg.current_phase > behavior.current_phase && 
+                            msg.current_phase <= behavior.total_phase)
             {
-                behavior.behavior_phase = msg.behavior_phase;
-                if (msg.behavior_phase == behavior.total_phase)
+                behavior.current_phase = msg.current_phase;
+                if (msg.current_phase == behavior.total_phase)
                 {
                     behaviorSeries.erase(itor);
                 }
@@ -236,13 +236,13 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
         if(behavior.name == behavior_name){
 
             rightBehaviorFlag = false;
-            behavior.behavior_phase = msg.behavior_phase;
+            behavior.current_phase = msg.current_phase;
 
-            if (msg.behavior_phase == behavior.total_phase || pauseFlag){
+            if (msg.current_phase == behavior.total_phase || pauseFlag){
                 // finish one behavior
                 mvCurrentBehaviors.erase(itor);
                 if(mvCurrentBehaviors.empty() && !behaviorSeries.empty()){
-                    parallelNum = 1;
+                    if(!pauseFlag) parallelNum = 1;
                     occupancy = {1,1,1,1,1};
                     pauseFlag = false;
                     updateBehaviorPub();
@@ -346,7 +346,7 @@ int BehaviorManager::computeParallel()
             if(behavior.necessary_count[i]){
                 local_count.push_back(i);
                 if(count[i] == 1){
-                    // cout << "parallel_num : " << parallel_num << endl;
+                    cout << "Compute parallel_num = " << parallel_num << endl;
                     return parallel_num;
                 }
             }
@@ -357,6 +357,7 @@ int BehaviorManager::computeParallel()
             occupancy[index] = parallel_num;
         }
     }
+    cout << "Compute parallel_num = " << parallel_num << endl;
     return parallel_num;
 }
 
@@ -372,7 +373,7 @@ void BehaviorManager::printCurrentSeries()
     for(auto behavior:behaviorSeries){
         cout << order << "\t" 
              << behavior.weight << "\t"
-             << behavior.behavior_phase << "/" << behavior.total_phase << "\t"
+             << behavior.current_phase << "/" << behavior.total_phase << "\t"
              << "{" << behavior.necessary_count[0] ;
         for(int i = 1 ; i < 5 ; i++){
             cout << "," << behavior.necessary_count[i];
@@ -380,7 +381,8 @@ void BehaviorManager::printCurrentSeries()
         cout << "} " << "\t" << behavior.name << "\t" << endl;
         order ++;
     }
-    cout << "parallelNum : " << mvCurrentBehaviors.size() << endl;
+    cout << "行为停止后有待并行的行为数量 :" << parallelNum << endl;
+    cout << "当前正在并行的行为数量 : " << mvCurrentBehaviors.size() << endl;
     cout << endl;
     return;
 }
@@ -388,7 +390,7 @@ void BehaviorManager::printCurrentSeries()
 void BehaviorManager::printMsgInfo(BehaviorModule::behavior_msg msg)
 {
     cout << "【Sent behavior_msg】" << endl;
-    cout << msg.name << "\t" << msg.type << "\t" << (int)msg.behavior_phase << "/" << (int)msg.total_phase << "\t";
+    cout << msg.name << "\t" << msg.type << "\t" << (int)msg.current_phase << "/" << (int)msg.total_phase << "\t";
     cout << "{" << (int)msg.occupancy[0];
     for(int i = 1 ; i < 5 ; i++){
         cout << "," << (int)msg.occupancy[i];
