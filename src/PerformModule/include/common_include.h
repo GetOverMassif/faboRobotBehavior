@@ -4,7 +4,7 @@
  * @Author: Zhang Jiadong
  * @Date: 2021-12-19 20:22:40
  * @LastEditors: GetOverMassif 164567487@qq.com
- * @LastEditTime: 2022-08-28 00:05:26
+ * @LastEditTime: 2022-08-28 16:42:35
  */
 
 #ifndef COMMON_INCLUDE_H
@@ -65,7 +65,7 @@ void printInColor(const char *content, const printColor color){
         printf("\033[1;36m");
     
     printf("%s", content);
-    printf("\033[0m\033[0m");
+    printf("\033[0m ");
 }
 
 };

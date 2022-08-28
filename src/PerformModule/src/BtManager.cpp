@@ -45,9 +45,11 @@ void BtManager::processBtData(string btData_str){
     string type;
     ss >> type;  // 读取接收到的蓝牙数据的第一个字符串 指令类型
     if (type == "BehaviorFeedback") {
+        cout << "type = " << type << endl;
         processBehaviorFeedback(btData_str);
     }
     else if (type == "ArmControl"){
+        cout << "type = " << type << endl;
         processArmControl(btData_str);
     }
     else {
@@ -99,8 +101,14 @@ void BtManager::processBehaviorFeedback(string behaviorFeedback_str){
         printf("Error when process BehaviorFeedback\n");
         return;
     }
-    ss >> msg.hehavior_name >> msg.current_phase;
+    ss >> msg.hehavior_name >> phase_str;
+    msg.current_phase = atoi(phase_str.c_str());
+    // cout << "pub前" << msg.hehavior_name << " " << msg.current_phase << endl;
+
+    unique_lock<mutex> lock(mutexPub);
     pub_hehaviorFeedback.publish(msg);
+    printInColor("发出行为反馈话题 : ", GREEN);
+    // cout << "pub后" << msg.hehavior_name << " " << msg.current_phase << endl;
 }
 
 void BtManager::processArmControl(string armControl_str){
@@ -113,7 +121,10 @@ void BtManager::processArmControl(string armControl_str){
         return;
     }
     ss >> msg.action;
+    unique_lock<mutex> lock(mutexPub);
     pub_robotic_arm.publish(msg);
+    printInColor("发出机械臂动作话题 : ", GREEN);
+    cout << msg.action << endl;
 }
 
 };
