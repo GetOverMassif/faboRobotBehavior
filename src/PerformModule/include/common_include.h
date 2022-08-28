@@ -4,7 +4,7 @@
  * @Author: Zhang Jiadong
  * @Date: 2021-12-19 20:22:40
  * @LastEditors: GetOverMassif 164567487@qq.com
- * @LastEditTime: 2022-08-27 18:37:24
+ * @LastEditTime: 2022-08-28 16:42:35
  */
 
 #ifndef COMMON_INCLUDE_H
@@ -32,21 +32,6 @@
  * 
  * 参考博客：https://www.cnblogs.com/lewki/p/14343894.html
  */
-
-// #define NONE "\033[m"   //正常终端颜色
-// // #define RED "\033[0;32;31m"    //红色
-// #define LIGHT_RED "\033[1;31m"  //粗体红色
-// // #define GREEN "\033[0;32;32m"    //绿色
-// #define LIGHT_GREEN "\033[1;32m"  
-// // #define BLUE "\033[0;32;34m"     //蓝色
-// #define LIGHT_BLUE "\033[1;34m"
-// #define DARY_GRAY "\033[1;30m"   //暗灰色
-// // #define CYAN "\033[0;36m"
-// #define LIGHT_CYAN "\033[1;36m"
-// #define PURPLE "\033[0;35m"
-// #define LIGHT_PURPLE "\033[1;35m"  //淡紫色
-// // #define YELLOW "\033[1;33m"      //黄色
-// #define WHITE "\033[1;37m"    //粗体白色
 
 namespace FABO_ROBOT
 {
@@ -80,7 +65,7 @@ void printInColor(const char *content, const printColor color){
         printf("\033[1;36m");
     
     printf("%s", content);
-    printf("\033[0m");
+    printf("\033[0m ");
 }
 
 };

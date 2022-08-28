@@ -4,7 +4,7 @@
  * @Author: Zhang Jiadong
  * @Date: 2021-12-29 11:40:12
  * @LastEditors: GetOverMassif 164567487@qq.com
- * @LastEditTime: 2022-08-27 23:01:26
+ * @LastEditTime: 2022-08-28 16:49:10
  */
 
 #ifndef BTMANAGER_H
@@ -17,6 +17,7 @@
 #include "BtRecall.h"
 #include "ros/ros.h"
 #include <thread>
+#include <mutex>
 
 using namespace std;
 
@@ -48,6 +49,7 @@ public:
 
 private:
     int blueteeth;
+    std::mutex mutexPub;
     BtRecall *mBtRecall;
     std::thread *mptBtRecall;
     string gaze_target_lastpub = "none";
