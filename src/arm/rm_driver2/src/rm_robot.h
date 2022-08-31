@@ -166,7 +166,8 @@ int timer_cnt = 0;
 #define PLAN_STATE_TYPE    0x05
 
 int Arm_Socket;                //机械臂网络通信套接字
-const char *Arm_IP = "192.168.1.18";   //机械臂IP地址
+// const char *Arm_IP = "192.168.1.18";   //机械臂IP地址
+const char *Arm_IP = "192.168.3.137";   //机械臂IP地址
 int Arm_Port = 8080;              //机械臂端口地址
 
 //连接机械臂网络
