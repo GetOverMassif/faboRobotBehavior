@@ -1,3 +1,15 @@
+/*
+ * @Author: GetOverMassif 164567487@qq.com
+ * @Date: 2022-08-06 18:17:49
+ * @LastEditors: GetOverMassif 164567487@qq.com
+ * @LastEditTime: 2022-09-01 15:40:33
+ * @FilePath: /Indoor-mobile-robot-with-arms/src/arm/arm_control/include/ArmsActionManager.h
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE#
+ */
+
+#ifndef ARMACTIONMANAGER_H
+#define ARMACTIONMANAGER_H
+
 #include <ros/ros.h>
 #include <jsoncpp/json/json.h>
 #include <string>
@@ -21,17 +33,31 @@ using namespace std;
 
 class ArmConfig{
 public:
-    ArmConfig(bool keep_still,double *joint_position,double move_speed,double pauseTime){
+    
+    ArmConfig(){}
+
+    ArmConfig(bool keep_still,double *joint_position,double move_speed,int pauseTime){
         keepStill = keep_still;
         for(int i=0 ; i<6 ; i++)
             jointPos[i] = *(joint_position+i);
         speed = move_speed;
-        pause_time = new ros::Duration(pauseTime);
+        mPauseTime = pauseTime;
     }
+
+    const ArmConfig& operator=(const ArmConfig& config){
+        keepStill = config.keepStill;
+        for (int i = 0 ; i < 6 ; i++){
+            jointPos[i] = config.jointPos[i];
+        }
+        speed = config.speed;
+        mPauseTime = config.mPauseTime;
+        return *this;
+    }
+
     bool keepStill;
     double jointPos[6];
     double speed;
-    ros::Duration *pause_time;
+    int mPauseTime;  // ms
 };
 
 class ArmsAction{
@@ -50,7 +76,7 @@ class ArmsActionManager{
 public:
     ArmsActionManager(const string &config_file){
         readinActions(config_file);
-        printAllActions();
+        // printAllActions();
     }
     
     void printAllActions();
@@ -64,3 +90,5 @@ private:
     set<std::string> action_catalog;
     map<std::string, ArmsAction> action_library;
 };
+
+#endif
