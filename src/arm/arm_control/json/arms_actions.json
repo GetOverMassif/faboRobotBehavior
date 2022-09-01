@@ -3,13 +3,12 @@
         {
             "name":"wave",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 0.8, "pausetime":1.5},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0.75},
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0.75},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0.75},
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0.75},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 0.9, "pausetime":0.75},
-                {"keep_still": false, "jointPos":[0.57, -1.09, -1.65, 2.04, 1.24, -0.63], "speed": 0.8, "pausetime":0.9}
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0},
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0},
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0},
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0},
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 0.9, "pausetime":0},
+                {"keep_still": false, "jointPos":[0.80, -1.56, -0.71, 1.77, 1.37, -0.63], "speed": 0.6, "pausetime":0}
             ],
             "right_arm_action":[
             ]
@@ -17,35 +16,45 @@
         {
             "name":"curl",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[0.57, -1.09, -1.65, 2.04, 1.24, -0.63], "speed": 0.6, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[0.57, -1.09, -1.65, 2.04, 1.24, -0.63], "speed": 0.6, "pausetime":0}
             ],
             "right_arm_action":[
-                {"keep_still": false, "jointPos":[-0.57, 1.09, 1.65, -2.04, -1.24, 0.63], "speed": 0.6, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[-0.57, 1.09, 1.65, -2.04, -1.24, 0.63], "speed": 0.6, "pausetime":0}
             ]
         },
         {
             "name":"sleep",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[0.80, -1.56, -0.71, 1.77, 1.37, -0.63], "speed": 0.6, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[0.80, -1.56, -0.71, 1.77, 1.37, -0.63], "speed": 0.6, "pausetime":0}
             ],
             "right_arm_action":[
-                {"keep_still": false, "jointPos":[-0.80, 1.56, 0.71, -1.77, -1.37, 0.63], "speed": 0.6, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[-0.80, 1.56, 0.71, -1.77, -1.37, 0.63], "speed": 0.6, "pausetime":0}
+            ]
+        },
+        {
+            "name":"hands_up",
+            "left_arm_action":[
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 0.6, "pausetime":0}
+            ],
+            "right_arm_action":[
+                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 0.6, "pausetime":0}
             ]
         },
         {
             "name":"shrug",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[0.79, -0.63, -1.13, 2.04, 1.22, -0.63], "speed": 0.6, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[0.79, -0.63, -1.13, 2.04, 1.22, -0.63], "speed": 0.6, "pausetime":0}
                 
             ],
             "right_arm_action":[
-                {"keep_still": false, "jointPos":[-0.82, 0.42, 1.42, -1.52, -1.32, 0.63], "speed": 0.6, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[-0.82, 0.42, 1.42, -1.52, -1.32, 0.63], "speed": 0.6, "pausetime":0}
             ]
         },
         {
             "name":"direct",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[0.0, 0.5, 0.0, 0.0, 0.0, 0.0], "speed": 0.6, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[0.0, 0.5, 0.0, 0.0, 0.0, 0.0], "speed": 0.6, "pausetime":0},
+                {"keep_still": false, "jointPos":[0.80, -1.56, -0.71, 1.77, 1.37, -0.63], "speed": 0.6, "pausetime":3000}
             ],
             "right_arm_action":[
             ]
@@ -55,7 +64,7 @@
             "left_arm_action":[
             ],
             "right_arm_action":[
-                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.35, 0.57], "speed": 0.6, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.35, 0.57], "speed": 0.6, "pausetime":0}
             ]
         },
         {
@@ -63,17 +72,18 @@
             "left_arm_action":[
             ],
             "right_arm_action":[
-                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.10, 0.57], "speed": 0.8, "pausetime":1.2},
-                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.60, 0.57], "speed": 0.8, "pausetime":1.2},
-                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.10, 0.57], "speed": 0.8, "pausetime":1.2},
-                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.60, 0.57], "speed": 0.8, "pausetime":1.2},
-                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.35, 0.57], "speed": 0.8, "pausetime":1.2}
+                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.10, 0.57], "speed": 0.8, "pausetime":0},
+                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.60, 0.57], "speed": 0.8, "pausetime":5},
+                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.10, 0.57], "speed": 0.8, "pausetime":5},
+                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.60, 0.57], "speed": 0.8, "pausetime":5},
+                {"keep_still": false, "jointPos":[0.67, 1.69, 0.30, -1.01, 0.35, 0.57], "speed": 0.8, "pausetime":5},
+                {"keep_still": false, "jointPos":[-0.80, 1.56, 0.71, -1.77, -1.37, 0.63], "speed": 0.6, "pausetime":5}
             ]
         },
         {
             "name":"criticize",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[-0.72, -1.35, -0.54, -0.41, 0.02, -0.21], "speed": 0.9, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[-0.72, -1.35, -0.54, -0.41, 0.02, -0.21], "speed": 0.9, "pausetime":0}
             ],
             "right_arm_action":[
             ]
@@ -81,7 +91,8 @@
         {
             "name":"respect",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[-1.26, -0.86, -1.04, -0.60, -0.64, -0.65], "speed": 0.9, "pausetime":0.67}
+                {"keep_still": false, "jointPos":[-1.26, -0.86, -1.04, -0.60, -0.64, -0.65], "speed": 0.9, "pausetime":0},
+                {"keep_still": false, "jointPos":[0.80, -1.56, -0.71, 1.77, 1.37, -0.63], "speed": 0.6, "pausetime":2000}
             ],
             "right_arm_action":[
             ]
@@ -89,36 +100,35 @@
         {
             "name":"double_wave",
             "left_arm_action":[
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 0.8, "pausetime":1.9},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 0.9, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[0.57, -1.09, -1.65, 2.04, 1.24, -0.63], "speed": 0.8, "pausetime":0.9}
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 0.8, "pausetime":0},
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[-1.65, -0.70, -0.61, 0.07, -0.04, -0.46], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[-1.69, -0.80, -1.15, -0.09, -0.50, -0.62], "speed": 0.9, "pausetime":5},
+                {"keep_still": false, "jointPos":[0.57, -1.09, -1.65, 2.04, 1.24, -0.63], "speed": 0.8, "pausetime":5}
             ],
             "right_arm_action":[
-                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 0.8, "pausetime":1.9},
-                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 0.9, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-0.57, 1.09, 1.65, -2.04, -1.24, 0.63], "speed": 0.8, "pausetime":0.9}
+                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 0.8, "pausetime":0},
+                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 0.9, "pausetime":5},
+                {"keep_still": false, "jointPos":[-0.57, 1.09, 1.65, -2.04, -1.24, 0.63], "speed": 0.8, "pausetime":5}
             ]
         },
         {
-            "name":"single_wave",
+            "name":"right_wave",
             "left_arm_action":[
             ],
             "right_arm_action":[
-                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 0.8, "pausetime":1.9},
-                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 1.0, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 0.9, "pausetime":0.9},
-                {"keep_still": false, "jointPos":[-0.57, 1.09, 1.65, -2.04, -1.24, 0.63], "speed": 0.8, "pausetime":0.9}
+                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 0.8, "pausetime":5},
+                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[1.65, 0.70, 0.61, -0.07, 0.04, 0.46], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[1.69, 0.80, 1.15, 0.09, 0.50, 0.62], "speed": 1.0, "pausetime":5},
+                {"keep_still": false, "jointPos":[-0.57, 1.09, 1.65, -2.04, -1.24, 0.63], "speed": 0.8, "pausetime":5}
             ]
         }
     ]

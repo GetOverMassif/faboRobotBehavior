@@ -1,3 +1,11 @@
+/*
+ * @Author: GetOverMassif 164567487@qq.com
+ * @Date: 2022-08-06 18:17:49
+ * @LastEditors: GetOverMassif 164567487@qq.com
+ * @LastEditTime: 2022-09-01 14:38:13
+ * @FilePath: /Indoor-mobile-robot-with-arms/src/arm/arm_control/src/ArmsActionManager.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #include "ArmsActionManager.h"
 
 void ArmsActionManager::readinActions(const string &config_file){
@@ -56,7 +64,7 @@ void ArmsActionManager::readinArmConfig(Json::Value root,std::vector<ArmConfig>&
         jointPos[k] = root["jointPos"][k].asDouble();
     }
     double speed = root["speed"].asDouble();
-    double pausetime = root["pausetime"].asDouble();
+    int pausetime = root["pausetime"].asInt();
     single_arm_action.push_back(ArmConfig(keepStill,jointPos,speed,pausetime));
 }
 

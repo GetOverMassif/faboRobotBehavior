@@ -117,7 +117,7 @@ void BtManager::processArmControl(string armControl_str){
     string type, phase_str;
     ss >> type;
     if(type != "ArmControl"){
-        printf("Error when process ArmControl\n");
+        printf("Error when process ArmsControl\n");
         return;
     }
     ss >> msg.action;

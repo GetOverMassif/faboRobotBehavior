@@ -7,17 +7,17 @@ set(CMAKE_BUILD_TYPE "Debug")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11  -pthread -gdwarf-2" )
 
 find_package(catkin REQUIRED COMPONENTS
-        roscpp
-        rospy
-        std_msgs
-        geometry_msgs
+    roscpp
+    rospy
+    std_msgs
+    geometry_msgs
 )
 
 MESSAGE("****catkin dir :${catkin_INCLUDE_DIRS} ")
 include_directories(
-        include
-        ${catkin_INCLUDE_DIRS}
-        /home/lj/Documents/Indoor-mobile-robot-with-arms/devel/include
+    include
+    ${catkin_INCLUDE_DIRS}
+    /home/lj/Documents/Indoor-mobile-robot-with-arms/devel/include
 )
 
 find_package(Threads) 
