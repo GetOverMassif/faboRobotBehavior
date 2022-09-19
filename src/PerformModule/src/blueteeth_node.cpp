@@ -4,7 +4,7 @@
  * @Author: Zhang Jiadong
  * @Date: 2022-08-24 20:58:00
  * @LastEditors: GetOverMassif 164567487@qq.com
- * @LastEditTime: 2022-08-28 00:18:29
+ * @LastEditTime: 2022-09-19 20:45:54
  */
 
 //ros头文件
@@ -64,24 +64,36 @@ int main(int argc, char** argv){
     // pub中会用到ros节点，以给机械臂发送topic
     btmanager.set_ros_node(n);
 
-    ros::spin();
-
-    // string parameter_blueteeth = "ParentsValidation,0/2";
-    // string arm_action = "wave";
-    // int arm_rate = 2 ;
+    // ros::spin();
     
-    // int op = 0;
-    // while (op != 3){
-    //     cout << "behavior_msg:";
-    //     cin >> parameter_blueteeth;
-    //     btmanager.sendBtMsgAndControlArm(parameter_blueteeth,  arm_action  , arm_rate);
-    //     cout << "\n0-continue,1-pause,3-exit" << endl << "op:";
-    //     cin >> op;
-    //     if(op == 1){
-    //         parameter_blueteeth = "pause,1/2";
-    //         btmanager.sendBtMsgAndControlArm(parameter_blueteeth,  arm_action  , arm_rate);
-    //     }
-    // }
+    int op;
+    cout << "\n1-wheel,2-head,0-exit" << endl << "op:";
+    cin >> op;
+    
+    while (op){
+        if (op == 1) {
+            int v_left, v_right, time;
+            cout << "v_left, v_right(-500~500 mm/s), time(ms) : ";
+            cin >> v_left >> v_right >> time;
+
+            string order = "Wheel," + std::to_string(v_left) +
+                                "," + std::to_string(v_right) +
+                                "," + std::to_string(time);
+            cout << "order = " << order << endl;
+            btmanager.sendBtData(order);
+        }
+        else if (op == 2) {
+            int angle, vel;
+            cout << "angle(0-240 degree), a_velocity(deg/s) : ";
+            cin >> angle >> vel;
+            string order = "Head," + std::to_string(angle) +
+                                "," + std::to_string(vel);
+            cout << "order = " << order << endl;
+            btmanager.sendBtData(order);
+        }
+        cout << "\n1-wheel,2-head,0-exit" << endl << "op:";
+        cin >> op;
+    }
 
     return 0;
 }
