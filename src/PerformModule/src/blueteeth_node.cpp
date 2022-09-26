@@ -4,7 +4,7 @@
  * @Author: Zhang Jiadong
  * @Date: 2022-08-24 20:58:00
  * @LastEditors: GetOverMassif 164567487@qq.com
- * @LastEditTime: 2022-09-19 20:45:54
+ * @LastEditTime: 2022-09-20 21:47:08
  */
 
 //ros头文件
@@ -20,13 +20,6 @@
 
 using namespace std;
 using namespace FABO_ROBOT;
-
-// ros node
-ros::Subscriber sub_behavior;
-ros::Publisher pub_reply;
-ros::Publisher pub_need_satisfy;
-ros::Publisher pub_associated_need;
-ros::Publisher pub_body_status;
 
 // 蓝牙
 #define PORT "/dev/rfcomm0"
@@ -50,7 +43,6 @@ FABO_ROBOT::BtRecall* FABO_ROBOT::BtRecall::m_g_recall;
 int main(int argc, char** argv){
 
     // FABO_ROBOT::initBtRecallStaticMember();
-    
 
     FABO_ROBOT::BtRecall *btRecall = new FABO_ROBOT::BtRecall(&bluetooth);
 
