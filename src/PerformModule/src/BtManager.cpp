@@ -25,8 +25,9 @@ void BtManager::set_ros_node(ros::NodeHandle& n){
     sub_wheelMotion = n.subscribe("/wheelMotion", 1000, &BtManager::wheelMotion_callback, this);
     sub_headMotion = n.subscribe("/headMotion", 1000, &BtManager::headMotion_callback, this);
 
-    // /turtle1/cmd_vel
-    sub_cmdVel = n.subscribe("/turtle1/cmd_vel", 1, &BtManager::cmdVel_callback, this);
+    // cmd_vel
+    // sub_cmdVel = n.subscribe("/turtle1/cmd_vel", 1, &BtManager::cmdVel_callback, this);
+    sub_cmdVel = n.subscribe("/fabo/cmd_vel", 1, &BtManager::cmdVel_callback, this);
 }
 
 void BtManager::sendBtData(string str){
