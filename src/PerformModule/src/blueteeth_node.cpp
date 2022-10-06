@@ -4,7 +4,7 @@
  * @Author: Zhang Jiadong
  * @Date: 2022-08-24 20:58:00
  * @LastEditors: GetOverMassif 164567487@qq.com
- * @LastEditTime: 2022-09-20 21:47:08
+ * @LastEditTime: 2022-10-06 13:36:50
  */
 
 //ros头文件
@@ -26,6 +26,7 @@ using namespace FABO_ROBOT;
 // #define PORT "/dev/ttyUSB0"
 #define BAUDRATE 115200
 int ret;
+
 pthread_t th;
 
 //创建接收线程，用于读取串口数据
@@ -56,36 +57,36 @@ int main(int argc, char** argv){
     // pub中会用到ros节点，以给机械臂发送topic
     btmanager.set_ros_node(n);
 
-    // ros::spin();
+    ros::spin();
     
-    int op;
-    cout << "\n1-wheel,2-head,0-exit" << endl << "op:";
-    cin >> op;
+    // int op;
+    // cout << "\n1-wheel,2-head,0-exit" << endl << "op:";
+    // cin >> op;
     
-    while (op){
-        if (op == 1) {
-            int v_left, v_right, time;
-            cout << "v_left, v_right(-500~500 mm/s), time(ms) : ";
-            cin >> v_left >> v_right >> time;
+    // while (op){
+    //     if (op == 1) {
+    //         int v_left, v_right, time;
+    //         cout << "v_left, v_right(-500~500 mm/s), time(ms) : ";
+    //         cin >> v_left >> v_right >> time;
 
-            string order = "Wheel," + std::to_string(v_left) +
-                                "," + std::to_string(v_right) +
-                                "," + std::to_string(time);
-            cout << "order = " << order << endl;
-            btmanager.sendBtData(order);
-        }
-        else if (op == 2) {
-            int angle, vel;
-            cout << "angle(0-240 degree), a_velocity(deg/s) : ";
-            cin >> angle >> vel;
-            string order = "Head," + std::to_string(angle) +
-                                "," + std::to_string(vel);
-            cout << "order = " << order << endl;
-            btmanager.sendBtData(order);
-        }
-        cout << "\n1-wheel,2-head,0-exit" << endl << "op:";
-        cin >> op;
-    }
+    //         string order = "Wheel," + std::to_string(v_left) +
+    //                             "," + std::to_string(v_right) +
+    //                             "," + std::to_string(time);
+    //         cout << "order = " << order << endl;
+    //         btmanager.sendBtData(order);
+    //     }
+    //     else if (op == 2) {
+    //         int angle, vel;
+    //         cout << "angle(0-240 degree), a_velocity(deg/s) : ";
+    //         cin >> angle >> vel;
+    //         string order = "Head," + std::to_string(angle) +
+    //                             "," + std::to_string(vel);
+    //         cout << "order = " << order << endl;
+    //         btmanager.sendBtData(order);
+    //     }
+    //     cout << "\n1-wheel,2-head,0-exit" << endl << "op:";
+    //     cin >> op;
+    // }
 
     return 0;
 }

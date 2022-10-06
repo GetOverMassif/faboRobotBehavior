@@ -20,6 +20,13 @@ void BtManager::set_ros_node(ros::NodeHandle& n){
     // on behavior
     sub_hehavior = n.subscribe("/BehaviorInstruction", 1000, &BtManager::behavior_callback, this);
     pub_hehaviorFeedback = n.advertise<BehaviorModule::behavior_feedback_msg>("/BehaviorFeedback", 1000);
+
+    // wheel/head motion
+    sub_wheelMotion = n.subscribe("/wheelMotion", 1000, &BtManager::wheelMotion_callback, this);
+    sub_headMotion = n.subscribe("/headMotion", 1000, &BtManager::headMotion_callback, this);
+
+    // /turtle1/cmd_vel
+    sub_cmdVel = n.subscribe("/turtle1/cmd_vel", 1, &BtManager::cmdVel_callback, this);
 }
 
 void BtManager::sendBtData(string str){
@@ -82,6 +89,20 @@ void BtManager::sendBtMsgAndControlArm(string parameter_blueteeth, string arm_ac
 }
 
 // private
+void BtManager::wheelMotion(const int v_left, const int v_right, const int time) {
+    string order = "Wheel," + std::to_string(v_left) +
+                        "," + std::to_string(v_right) +
+                        "," + std::to_string(time);
+    cout << "order = " << order << endl;
+    sendBtData(order);
+}
+
+void BtManager::headMotion(const int angle, const int vel) {
+    string order = "Head," + std::to_string(angle) +
+                        "," + std::to_string(vel);
+    cout << "order = " << order << endl;
+    sendBtData(order);
+}
 
 void BtManager::behavior_callback(const BehaviorModule::behavior_msg &msg){
     std::string bluetooth_message = "";
@@ -90,6 +111,29 @@ void BtManager::behavior_callback(const BehaviorModule::behavior_msg &msg){
                         + to_string(msg.current_phase) + "/" + to_string(msg.total_phase);
     sendBtData(bluetooth_message);
     return;
+}
+
+void BtManager::wheelMotion_callback(const PerformModule::WheelMotion_msg &msg) {
+    // v_left, v_right(-500~500 mm/s), time(ms)
+    int v_left = msg.v_left, v_right = msg.v_right, time = msg.time;
+    wheelMotion(v_left, v_right, time);
+}
+
+void BtManager::headMotion_callback(const PerformModule::HeadMotion_msg &msg) {
+    // angle(0-240 degree), a_velocity(deg/s)
+    int angle = msg.angle, vel = msg.vel;
+    headMotion(angle, vel);
+}
+
+void BtManager::cmdVel_callback(const geometry_msgs::Twist msg) {
+    // normal : vl = 2/-2, z = 2/-2, D = 500, kl = 0.01, ka = 1.5
+    // vl = kl * (v_left + v_right) / 2, va = ka * (v_right - v_left) / D
+    float D = 500.0, kl = 0.01, ka = 2.0;
+    float vl = msg.linear.x, va = msg.angular.z;
+    float v_sum = (vl * 2.0 / kl), v_dif = va * D / ka;
+    int v_left = (int)(v_sum - v_dif) / 2;
+    int v_right = (int)(v_sum + v_dif) / 2;
+    wheelMotion(v_left, v_right, 600);
 }
 
 void BtManager::processBehaviorFeedback(string behaviorFeedback_str){
@@ -111,7 +155,7 @@ void BtManager::processBehaviorFeedback(string behaviorFeedback_str){
     // cout << "pub后" << msg.hehavior_name << " " << msg.current_phase << endl;
 }
 
-void BtManager::processArmControl(string armControl_str){
+void BtManager::processArmControl(string armControl_str) {
     arm_control::Arms msg;
     stringstream ss(armControl_str);
     string type, phase_str;
@@ -127,4 +171,4 @@ void BtManager::processArmControl(string armControl_str){
     cout << msg.action << endl;
 }
 
-};
+} // end of namespace FABOROBOT

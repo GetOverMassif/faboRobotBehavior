@@ -8,17 +8,17 @@
             "subBehavior":[
                 {
                     "discription"   : "Look at and wave to target person.",
-                    "Gaze"          : {"is_necessary" : true,  "weight" : 1.0},
+                    "Gaze"          : {"is_necessary" : false,  "weight" : 1.0},
                     "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
-                    "Voice"         : {"is_necessary" : false, "weight" : 0.5},
+                    "Voice"         : {"is_necessary" : true, "weight" : 0.5},
                     "Manipulator"   : {"is_necessary" : true,  "weight" : 1.0},
                     "Mover"         : {"is_necessary" : true, "weight" : 0.5}
                 },
                 {
                     "discription"   : "Say hello.",
-                    "Gaze"          : {"is_necessary" : true,  "weight" : 1.0},
+                    "Gaze"          : {"is_necessary" : false,  "weight" : 1.0},
                     "Emotion"       : {"is_necessary" : true,  "weight" : 1.0},
-                    "Voice"         : {"is_necessary" : false,  "weight" : 1.0,
+                    "Voice"         : {"is_necessary" : true,  "weight" : 1.0,
                                        "content" : "Hello"},
                     "Manipulator"   : {"is_necessary" : true, "weight" : 1.0},
                     "Mover"         : {"is_necessary" : true, "weight" : 1.0}
@@ -108,14 +108,14 @@
                     "Emotion"       : {"is_necessary" : false,  "weight" : 1.0},
                     "Voice"         : {"is_necessary" : false, "weight" : 1.0},
                     "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
-                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
+                    "Mover"         : {"is_necessary" : false,  "weight" : 1.0}
                 },{
                     "discription"   : "ParentsValidation step2.",
                     "Gaze"          : {"is_necessary" : true, "weight" : 1.0},
                     "Emotion"       : {"is_necessary" : false,  "weight" : 1.0},
                     "Voice"         : {"is_necessary" : false, "weight" : 1.0},
                     "Manipulator"   : {"is_necessary" : false, "weight" : 1.0},
-                    "Mover"         : {"is_necessary" : true,  "weight" : 1.0}
+                    "Mover"         : {"is_necessary" : false,  "weight" : 1.0}
                 }
             ]
         },{
