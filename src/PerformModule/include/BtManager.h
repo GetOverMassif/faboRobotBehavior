@@ -4,13 +4,16 @@
  * @Author: Zhang Jiadong
  * @Date: 2021-12-29 11:40:12
  * @LastEditors: GetOverMassif 164567487@qq.com
- * @LastEditTime: 2022-08-28 16:49:10
+ * @LastEditTime: 2022-10-06 15:29:13
  */
 
 #ifndef BTMANAGER_H
 #define BTMANAGER_H
 
 #include <BehaviorModule/behavior_msg.h>
+#include <PerformModule/HeadMotion_msg.h>
+#include <PerformModule/WheelMotion_msg.h>
+#include <geometry_msgs/Twist.h>
 #include <BehaviorModule/behavior_feedback_msg.h>
 #include "common_include.h"
 #include <string>
@@ -58,11 +61,19 @@ private:
     
     ros::Publisher pub_hehaviorFeedback;
     ros::Subscriber sub_hehavior;
+    ros::Subscriber sub_wheelMotion;
+    ros::Subscriber sub_headMotion;
+    ros::Subscriber sub_cmdVel;
+    
+    void wheelMotion(const int v_left, const int v_right, const int time);
+    void headMotion(const int angle, const int vel);
 
     void behavior_callback(const BehaviorModule::behavior_msg &msg);
+    void wheelMotion_callback(const PerformModule::WheelMotion_msg &msg);
+    void headMotion_callback(const PerformModule::HeadMotion_msg &msg);
+    void cmdVel_callback(const geometry_msgs::Twist msg);
 
     void processBehaviorFeedback(string behaviorFeedback_str);
-
     void processArmControl(string armControl_str);
 };
 
