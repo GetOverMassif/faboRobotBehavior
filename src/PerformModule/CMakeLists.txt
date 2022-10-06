@@ -58,4 +58,5 @@ add_library(
 add_executable(blueteeth_demo_node src/blueteeth_node.cpp)
 target_link_libraries(blueteeth_demo_node BtManager BtRecall ${catkin_LIBRARIES}  yaml-cpp ${CMAKE_THREAD_LIBS_INIT})
 
-# add_executable(fabo_teleop_key src/fabo_teleop_key.cpp)
+add_executable(fabo_teleop_key src/fabo_teleop_key.cpp)
+target_link_libraries(fabo_teleop_key ${catkin_LIBRARIES}  yaml-cpp ${CMAKE_THREAD_LIBS_INIT})

@@ -9,6 +9,12 @@
  # include <windows.h>
  #endif
  
+ #define KEYCODE_SPACE 0x20
+ #define KEYCODE_LARROW 0x2c
+ #define KEYCODE_RARROW 0x2e
+ #define KEYCODE_N 0x6e
+ #define KEYCODE_M 0x6d
+
  #define KEYCODE_RIGHT 0x43
  #define KEYCODE_LEFT 0x44
  #define KEYCODE_UP 0x41
@@ -19,6 +25,7 @@
  #define KEYCODE_E 0x65
  #define KEYCODE_F 0x66
  #define KEYCODE_G 0x67
+ #define KEYCODE_P 0x70
  #define KEYCODE_Q 0x71
  #define KEYCODE_R 0x72
  #define KEYCODE_T 0x74
@@ -171,9 +178,9 @@
    a_scale_(2.0)
  {
 //    nh_ = n;
-//    nh_.param("scale_angular", a_scale_, a_scale_);
-//    nh_.param("scale_linear", l_scale_, l_scale_);
-   twist_pub_ = nh_.advertise<geometry_msgs::Twist>("fabo/cmd_vel", 1);
+   nh_.param("scale_angular", a_scale_, a_scale_);
+   nh_.param("scale_linear", l_scale_, l_scale_);
+   twist_pub_ = nh_.advertise<geometry_msgs::Twist>("/fabo/cmd_vel", 1);
  }
  
  void quit(int sig)
@@ -207,7 +214,10 @@
  
    puts("Reading from keyboard");
    puts("---------------------------");
-   puts("Use arrow keys to move the turtle. 'q' to quit.");
+   puts(" - arrow keys to move the turtle, 'space' to stop. ");
+   puts(" - '<'/'>' to decrease/add linear vel.");
+   puts(" - 'N'/'M' to decrease/add angular vel.");
+   puts(" - 'q' to quit.");
  
  
    for(;;)
@@ -225,7 +235,8 @@
  
      linear_=angular_=0;
      ROS_DEBUG("value: 0x%02X\n", c);
-   
+     
+    //  printf("input = %#x\n", c);
      switch(c)
      {
        case KEYCODE_LEFT:
@@ -248,6 +259,27 @@
          linear_ = -1.0;
          dirty = true;
          break;
+       case KEYCODE_SPACE:
+         linear_ = 0.0;
+         angular_ = 0.0;
+         dirty = true;
+         break;
+       case KEYCODE_N:
+         if (a_scale_ >= 0.8) a_scale_ -= 0.2;
+         printf("a_scale_ = %.1f\n", a_scale_);
+         break;
+       case KEYCODE_M:
+         if (a_scale_ <= 3.0) a_scale_ += 0.2;
+         printf("a_scale_ = %.1f\n", a_scale_);
+         break;
+       case KEYCODE_LARROW:
+         if (l_scale_ >= 0.8) l_scale_ -= 0.2;
+         printf("l_scale_ = %.1f\n", l_scale_);
+         break;
+       case KEYCODE_RARROW:
+         if (l_scale_ <= 4.0) l_scale_ += 0.2;
+         printf("l_scale_ = %.1f\n", l_scale_);
+         break;
        case KEYCODE_Q:
          ROS_DEBUG("quit");
          return;
@@ -255,12 +287,12 @@
     
  
      geometry_msgs::Twist twist;
-     twist.angular.z = a_scale_*angular_;
-     twist.linear.x = l_scale_*linear_;
-     if(dirty ==true)
+     twist.angular.z = a_scale_ * angular_;
+     twist.linear.x = l_scale_ * linear_;
+     if(dirty == true)
      {
        twist_pub_.publish(twist);    
-       dirty=false;
+       dirty = false;
      }
    }
  
