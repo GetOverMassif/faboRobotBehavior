@@ -14,6 +14,7 @@
 #include <iostream>
 #include <vector>
 #include "ros/ros.h"
+#include <ros/package.h>
 
 #include "std_msgs/String.h"
 
@@ -25,7 +26,9 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "arm_control");
     ros::NodeHandle n;
-    string config_file = "/home/lj/Documents/Indoor-mobile-robot-with-arms/src/arm/arm_control/json/arms_actions.json";
+    std::string config_file = ros::package::getPath("arm_control") + "/json/arms_actions.json";
+
+    // string config_file = "/home/lj/Documents/Indoor-mobile-robot-with-arms/src/arm/arm_control/json/arms_actions.json";
     ArmsActionManager arms_action_manager(config_file);
     
     // 创建机械臂控制实例
