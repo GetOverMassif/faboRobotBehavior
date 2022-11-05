@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 #  rm_msgs
   message_generation
+  roslib
 )
 
 # Generate messages in the 'msg' folder
@@ -48,7 +49,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   /usr/include
-  /home/lj/Documents/Indoor-mobile-robot-with-arms/src/PerformModule/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../../PerformModule/include
 #  /usr/include/
 )
 
