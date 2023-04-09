@@ -2,7 +2,7 @@
  * @Author: GetOverMassif 164567487@qq.com
  * @Date: 2022-08-06 18:17:49
  * @LastEditors: GetOverMassif 164567487@qq.com
- * @LastEditTime: 2022-09-01 19:50:16
+ * @LastEditTime: 2022-10-13 15:49:52
  * @FilePath: /Indoor-mobile-robot-with-arms/src/arm/arm_control/src/arm_control.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     sleep(2);
 
     arm_control::Arms msg;
-    string action_str = "sleep";
+    string action_str = "explore";
     msg.action = action_str;
     arm_control.callAction(msg);
 
