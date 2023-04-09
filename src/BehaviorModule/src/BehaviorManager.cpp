@@ -94,13 +94,18 @@ bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
     }
     cout << " succeeds." << endl;
 
-    Behavior new_behavior = behavior_index->second;
+    Behavior new_behavior(behavior_index->second);
+
+    new_behavior.configureByNeedMsg(msg);
+
+    // TODO: Configure behavior
 
     // 2. Configure the behavior instance in different ways according to the type of behavior.
-    if (new_behavior.type == "EXPRESSION"){}
-    else if (new_behavior.type == "INTERACTION"){
-        new_behavior.target = msg.person_name;
-    }
+    // if (new_behavior.type == "EXPRESSION"){}
+    // else if (new_behavior.type == "INTERACTION"){
+    //     new_behavior.target = msg.person_name;
+    // }
+    
 
     addNewBehavior(new_behavior);
 
@@ -136,6 +141,12 @@ void BehaviorManager::addNewBehavior(Behavior new_behavior)
     return;
 }
 
+void BehaviorManager::tellIdleState()
+{
+    //TODO: tell EmotionModule the idle state
+    // to be considered: 从空闲状态转换到有行为执行时是否需要告知情绪模块
+}
+
 // Make the necessary judge, update the parallel behaviors to be execute
 // and finally pub them.
 void BehaviorManager::updateBehaviorPub()
@@ -162,11 +173,8 @@ void BehaviorManager::updateBehaviorPub()
 
     for(int i = 0 ; i < parallelNum ; i++){
         mvCurrentBehaviors.push_back(behaviorSeries[i]);
+        msg = generateOrderMsgByBehavior(behaviorSeries[i]);
 
-        msg.name = behaviorSeries[i].name;
-        msg.type = behaviorSeries[i].type;
-        msg.current_phase = behaviorSeries[i].current_phase;
-        msg.total_phase = behaviorSeries[i].total_phase;
         for(int j = 0 ; j < 5 ; j ++) {
             msg.occupancy[j] = 0;
         }
@@ -197,12 +205,12 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
 {
     cout << "【BehaviorFeedback】" << msg.hehavior_name << "," << (int)msg.current_phase << endl;
 
+    // to be tested: varify behavior by stamp
     bool rightBehaviorFlag = false;
-    string behavior_name = msg.hehavior_name;
     vector<Behavior>::iterator itor = behaviorSeries.begin();
 
     for (auto &behavior : behaviorSeries){
-        if(behavior.name == behavior_name){
+        if(judgeSameStamp(behavior.header, msg.header)){
             rightBehaviorFlag = true;
             if(msg.current_phase > behavior.current_phase && 
                             msg.current_phase <= behavior.total_phase)
@@ -233,7 +241,7 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
     itor = mvCurrentBehaviors.begin();
 
     for (auto &behavior : mvCurrentBehaviors){
-        if(behavior.name == behavior_name){
+        if(judgeSameStamp(behavior.header, msg.header)){
 
             rightBehaviorFlag = false;
             behavior.current_phase = msg.current_phase;
@@ -246,6 +254,9 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
                     occupancy = {1,1,1,1,1};
                     pauseFlag = false;
                     updateBehaviorPub();
+                }
+                else if (behaviorSeries.empty()) {
+                    tellIdleState();
                 }
             }
             printCurrentSeries();

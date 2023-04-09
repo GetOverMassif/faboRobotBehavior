@@ -5,6 +5,7 @@
 // #include <std_msgs/>
 #include <vector>
 #include <fstream>
+#include <std_msgs/Header.h>
 #include <BehaviorModule/need_msg.h>
 #include <BehaviorModule/behavior_msg.h>
 #include <BehaviorModule/behavior_feedback_msg.h>
@@ -86,18 +87,50 @@ public:
 
 class Behavior{
 public:
-    Behavior(){};
+    Behavior(){
+        header.stamp = ros::Time::now();
+    };
+
+    Behavior(const Behavior& beh) : 
+            name(beh.name), type(beh.type), current_phase(beh.current_phase), total_phase(beh.total_phase),
+            target(beh.target), target_angle(beh.target_angle), target_distance(beh.target_distance),
+            speech(beh.speech), rob_emotion(beh.rob_emotion), rob_emotion_intensity(beh.rob_emotion_intensity),
+            weight(beh.weight), is_light(beh.is_light), necessary_count(beh.necessary_count),
+            subBehaviorSeries(beh.subBehaviorSeries)
+    {
+        header.stamp = ros::Time::now();
+    }
+
+    void configureByNeedMsg(const BehaviorModule::need_msg &msg)
+    {
+        name = msg.need_name;
+        target = msg.person_name;
+        target_angle = msg.target_angle;
+        target_distance = msg.target_distance;
+        speech = msg.speech;
+        rob_emotion = msg.rob_emotion;
+        rob_emotion_intensity = msg.rob_emotion_intensity;
+    }
 
 public:
+    // params to pass to PerformModule
+    std_msgs::Header header;
     string name;
-    double weight;
     string type;
-    bool is_light;
-    string target;
     int current_phase = 0;
     int total_phase;
-    vector<SubBehavior> subBehaviorSeries;  // 子行为序列
+    string target;
+    float target_angle;
+    float target_distance;
+    string speech;
+    string rob_emotion;
+    int rob_emotion_intensity;
+    
+    // other params
+    double weight;
+    bool is_light;
     vector<int> necessary_count = {0,0,0,0,0};
+    vector<SubBehavior> subBehaviorSeries;  // 子行为序列
 };
 
 /**
@@ -123,6 +156,7 @@ public:
     {
         publisher_behavior_ = n_.advertise<BehaviorModule::behavior_msg>("/BehaviorInstruction", 1000);
         subscriber_behavior_feedback_ = n_.subscribe("/BehaviorFeedback", 1000, &BehaviorManager::behavior_feedback_callback, this);
+        tellIdleState();
     };
 
     /**
@@ -158,6 +192,35 @@ public:
      * 
      */
     void printAllBehaviors();
+
+    bool judgeSameStamp(const std_msgs::Header& header1, const std_msgs::Header& header2) {
+        if (header1.stamp.sec == header2.stamp.sec && header1.stamp.nsec == header2.stamp.nsec)
+            return true;
+        else
+            return false;
+    }
+
+    BehaviorModule::behavior_msg generateOrderMsgByBehavior(const Behavior& beh)
+    {
+        BehaviorModule::behavior_msg msg;
+        {
+            msg.header.frame_id = beh.header.frame_id;
+            msg.header.seq = beh.header.seq;
+            msg.header.stamp.sec = beh.header.stamp.sec;
+            msg.header.stamp.nsec = beh.header.stamp.nsec;
+        }
+        msg.name = beh.name;
+        msg.type = beh.type;
+        msg.current_phase = beh.current_phase;
+        msg.total_phase = beh.total_phase;
+        msg.target = beh.target;
+        msg.target_angle = beh.target_angle;
+        msg.target_distance = beh.target_distance;
+        msg.speech = beh.speech;
+        msg.rob_emotion = beh.rob_emotion;
+        msg.rob_emotion_intensity = beh.rob_emotion_intensity;
+        return msg;
+    }
     
 private:
     ros::NodeHandle n_;
@@ -170,6 +233,7 @@ private:
      * @param new_behavior 需添加的新行为
      */
     void addNewBehavior(Behavior new_behavior);
+    void tellIdleState();
 
     /**
      * @brief 更新行为消息的发布
