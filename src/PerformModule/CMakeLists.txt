@@ -33,7 +33,7 @@ MESSAGE("****catkin dir :${catkin_INCLUDE_DIRS} ")
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
-    /home/lj/Documents/Indoor-mobile-robot-with-arms/devel/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 find_package(Threads) 

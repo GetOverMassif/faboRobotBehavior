@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include "ros/ros.h"
+#include <ros/package.h>
 
 #include "std_msgs/String.h"
 
@@ -46,7 +47,8 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "behavior_node");
     ros::NodeHandle n;
-    string config_file = "/home/lj/Documents/Indoor-mobile-robot-with-arms/src/BehaviorModule/data/behaviourData.json";
+    std::string config_file = ros::package::getPath("BehaviorModule") + "/data/behaviourData.json";
+    // string config_file = "/home/lj/Documents/Indoor-mobile-robot-with-arms/src/BehaviorModule/data/behaviourData.json";
     BehaviorNode behavior_node(n);
     behavior_node.readinBehaviorLibrary(config_file);
     ros::spin();
