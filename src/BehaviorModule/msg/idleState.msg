@@ -1,0 +1,1 @@
+bool idleState    # 空闲为1，忙碌中为0. 当状态改变时，发送此topic。

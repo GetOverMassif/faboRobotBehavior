@@ -9,6 +9,7 @@
 #include <BehaviorModule/need_msg.h>
 #include <BehaviorModule/behavior_msg.h>
 #include <BehaviorModule/behavior_feedback_msg.h>
+#include <BehaviorModule/idleState.h>
 // #include <bits/stdc++.h>
 
 using namespace std;
@@ -155,8 +156,9 @@ public:
     BehaviorManager(ros::NodeHandle& n):n_(n)
     {
         publisher_behavior_ = n_.advertise<BehaviorModule::behavior_msg>("/BehaviorInstruction", 1000);
+        publisher_idlestate_ = n_.advertise<BehaviorModule::idleState>("/idleState",1000);
         subscriber_behavior_feedback_ = n_.subscribe("/BehaviorFeedback", 1000, &BehaviorManager::behavior_feedback_callback, this);
-        tellIdleState();
+        tellIdleState(true);
     };
 
     /**
@@ -225,6 +227,7 @@ public:
 private:
     ros::NodeHandle n_;
     ros::Publisher publisher_behavior_;
+    ros::Publisher publisher_idlestate_;
     ros::Subscriber subscriber_behavior_feedback_;
 
     /**
@@ -233,7 +236,7 @@ private:
      * @param new_behavior 需添加的新行为
      */
     void addNewBehavior(Behavior new_behavior);
-    void tellIdleState();
+    void tellIdleState(bool state);
 
     /**
      * @brief 更新行为消息的发布

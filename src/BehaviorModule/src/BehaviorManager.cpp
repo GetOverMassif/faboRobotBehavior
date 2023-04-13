@@ -117,7 +117,10 @@ bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
 void BehaviorManager::addNewBehavior(Behavior new_behavior)
 {
     // Judge if behaviorSeries is empty.
-    if(!behaviorSeries.empty()){
+    if(behaviorSeries.empty()) {
+        tellIdleState(false);
+    }
+    else{
         // Judge if a light behavior exists.
         if(behaviorSeries[0].is_light){
             behaviorSeries.clear();
@@ -129,7 +132,7 @@ void BehaviorManager::addNewBehavior(Behavior new_behavior)
         }
     }
     
-    // When behaviorSeries is not empty and there's no light behavior.
+    // When there's no light behavior.
     int insertLocation = insertBehavior(new_behavior);
     parallelNum = computeParallel();
     printCurrentSeries();
@@ -141,9 +144,13 @@ void BehaviorManager::addNewBehavior(Behavior new_behavior)
     return;
 }
 
-void BehaviorManager::tellIdleState()
+void BehaviorManager::tellIdleState(bool state)
 {
     //TODO: tell EmotionModule the idle state
+    BehaviorModule::idleState msg;
+    msg.idleState = state;
+    publisher_idlestate_.publish(msg);
+    
     // to be considered: 从空闲状态转换到有行为执行时是否需要告知情绪模块
 }
 
@@ -256,7 +263,7 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
                     updateBehaviorPub();
                 }
                 else if (behaviorSeries.empty()) {
-                    tellIdleState();
+                    tellIdleState(true);
                 }
             }
             printCurrentSeries();
