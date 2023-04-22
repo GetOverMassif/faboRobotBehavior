@@ -77,29 +77,37 @@ public:
 // 子行为
 class SubBehavior{
 public:
-    SubBehavior(){};
+    SubBehavior(){
+        mActuators = vector<SubBehaviorExpression*>(5);
+        mActuators[0] = new Gaze();
+        mActuators[1] = new Emotion();
+        mActuators[2] = new Voice();
+        mActuators[3] = new Manipulator();
+        mActuators[4] = new Mover();
+    };
     string discription;
-    Gaze gaze;
-    Emotion emotion;
-    Voice voice;
-    Manipulator manipulator;
-    Mover mover;
+    vector<SubBehaviorExpression*> mActuators;
 };
 
 class Behavior{
 public:
     Behavior(){
-        header.stamp = ros::Time::now();
     };
 
-    Behavior(const Behavior& beh) : 
+    Behavior(const Behavior& beh, bool reserveStamp=true) : 
             name(beh.name), type(beh.type), current_phase(beh.current_phase), total_phase(beh.total_phase),
             target(beh.target), target_angle(beh.target_angle), target_distance(beh.target_distance),
             speech(beh.speech), rob_emotion(beh.rob_emotion), rob_emotion_intensity(beh.rob_emotion_intensity),
             weight(beh.weight), is_light(beh.is_light), necessary_count(beh.necessary_count),
             subBehaviorSeries(beh.subBehaviorSeries)
     {
-        header.stamp = ros::Time::now();
+        if (reserveStamp)
+        {
+            header.stamp = beh.header.stamp;
+        }
+        else{
+            header.stamp = ros::Time::now();
+        }
     }
 
     void configureByNeedMsg(const BehaviorModule::need_msg &msg)
@@ -196,10 +204,12 @@ public:
     void printAllBehaviors();
 
     bool judgeSameStamp(const std_msgs::Header& header1, const std_msgs::Header& header2) {
-        if (header1.stamp.sec == header2.stamp.sec && header1.stamp.nsec == header2.stamp.nsec)
+        if (header1.stamp.sec == header2.stamp.sec)
             return true;
         else
+        {
             return false;
+        }
     }
 
     BehaviorModule::behavior_msg generateOrderMsgByBehavior(const Behavior& beh)
@@ -208,8 +218,8 @@ public:
         {
             msg.header.frame_id = beh.header.frame_id;
             msg.header.seq = beh.header.seq;
-            msg.header.stamp.sec = beh.header.stamp.sec;
-            msg.header.stamp.nsec = beh.header.stamp.nsec;
+            msg.header.stamp.sec = (int)(beh.header.stamp.sec);
+            msg.header.stamp.nsec = (int)(beh.header.stamp.nsec);
         }
         msg.name = beh.name;
         msg.type = beh.type;
@@ -235,7 +245,7 @@ private:
      * 
      * @param new_behavior 需添加的新行为
      */
-    void addNewBehavior(Behavior new_behavior);
+    void addNewBehavior(Behavior &new_behavior);
     void tellIdleState(bool state);
 
     /**

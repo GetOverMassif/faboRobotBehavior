@@ -3,14 +3,14 @@
 // Read behavior data from .json file and save in behavior_library.
 void BehaviorManager::readinBehaviorLibrary(const string &config_file)
 {
-    cout << "Start to read behavior data." << endl;
+    cout << "Reading behavior data..." << endl;
     Json::Value root;
     Json::Reader reader;
     fstream ifs(config_file);
 
     string strjson;
     if (!ifs.is_open()) {
-        cout << "Fail to open ifs." << endl;
+        cout << "Fail to open: " << config_file << endl;
         return;
     }
 
@@ -21,12 +21,20 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
     ifs.close();
 
     if (!reader.parse(strjson, root)){
-		cout << "Fail to open json." << endl;
+		cout << "Fail to analysis json: " << config_file << endl;
 		ifs.close();
         return;
     }
+
+    cout << "Loaded!" << endl;
+
     int behavior_num = root["behavior"].size();
+
+    // printf("behavior_num = %d\n", behavior_num);
+
+
     for(int i=0; i<behavior_num; i++){
+        // printf("i = %d", i);
         auto root_i = root["behavior"][i];
         Behavior behavior;
         string behavior_name = root_i["name"].asString();
@@ -36,10 +44,16 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
         behavior.weight = root_i["weight"].asDouble();
         behavior.type = root_i["type"].asString();
         behavior.is_light = root_i["is_light"].asBool();
+
+        // cout << "set is_light" << endl;
         
         auto root_sub = root_i["subBehavior"];
         int sub_behavior_num = root_sub.size();
         vector<SubBehavior> sub_behaviors;
+
+        // cout << "set sub_behaviors" << endl;
+
+        // printf("sub_behavior_num = %d\n", sub_behavior_num);
 
         for(int j=0; j<sub_behavior_num; j++){
             // readinArmConfig(root_sub[j],sub_behaviors);
@@ -47,36 +61,27 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
             SubBehavior sub_behavior;
             sub_behavior.discription = root_sub_j["discription"].asString();
 
-            // Gaze
-            sub_behavior.gaze.is_necessary = root_sub_j["Gaze"]["is_necessary"].asBool();
-            sub_behavior.gaze.weight = root_sub_j["Gaze"]["weight"].asDouble();
-            // Emotion
-            sub_behavior.emotion.is_necessary = root_sub_j["Emotion"]["is_necessary"].asBool();
-            sub_behavior.emotion.weight = root_sub_j["Emotion"]["weight"].asDouble();
-            // Voice
-            sub_behavior.voice.is_necessary = root_sub_j["Voice"]["is_necessary"].asBool();
-            sub_behavior.voice.weight = root_sub_j["Voice"]["weight"].asDouble();
-            if (sub_behavior.voice.is_necessary) {sub_behavior.voice.content = root_sub_j["Voice"]["content"].asString();}
-            // Manipulator
-            sub_behavior.manipulator.is_necessary = root_sub_j["Manipulator"]["is_necessary"].asBool();
-            sub_behavior.manipulator.weight = root_sub_j["Manipulator"]["weight"].asDouble();
-            // Mover
-            sub_behavior.mover.is_necessary = root_sub_j["Mover"]["is_necessary"].asBool();
-            sub_behavior.mover.weight = root_sub_j["Mover"]["weight"].asDouble();
+            vector<string> actuators = {"Gaze", "Emotion", "Voice", "Manipulator", "Mover"};
+
+            for (int i = 0; i < actuators.size(); i++)
+            {
+                string actuator = actuators[i];
+                sub_behavior.mActuators[i]->is_necessary = root_sub_j[actuator]["is_necessary"].asBool();
+                sub_behavior.mActuators[i]->weight = root_sub_j[actuator]["weight"].asDouble();
+            }
 
             sub_behaviors.push_back(sub_behavior);
 
-            behavior.necessary_count[0] += sub_behavior.gaze.is_necessary?1:0;
-            behavior.necessary_count[1] += sub_behavior.emotion.is_necessary?1:0;
-            behavior.necessary_count[2] += sub_behavior.voice.is_necessary?1:0;
-            behavior.necessary_count[3] += sub_behavior.manipulator.is_necessary?1:0;
-            behavior.necessary_count[4] += sub_behavior.mover.is_necessary?1:0;
+            for (int i = 0; i < 5; i++) {
+                behavior.necessary_count[i] += sub_behavior.mActuators[i]->is_necessary?1:0;
+            }
         }
         
         behavior.subBehaviorSeries = sub_behaviors;
         behavior.total_phase = behavior.subBehaviorSeries.size();
         behavior_library.insert(pair<string,Behavior>(behavior_name, behavior));
     }
+    cout << "Finish behavior_library creation." << endl;
 }
 
 // Handle need message and generate the behavior instance 
@@ -94,7 +99,9 @@ bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
     }
     cout << " succeeds." << endl;
 
-    Behavior new_behavior(behavior_index->second);
+    Behavior new_behavior(behavior_index->second, false);
+
+    cout << "before configureByNeedMsg" << endl;
 
     new_behavior.configureByNeedMsg(msg);
 
@@ -114,7 +121,7 @@ bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
 
 // Delete light behavior, add the new behavior instance into behaviorSeries
 // and judge whether it is among the parallel behaviors to be execute.
-void BehaviorManager::addNewBehavior(Behavior new_behavior)
+void BehaviorManager::addNewBehavior(Behavior &new_behavior)
 {
     // Judge if behaviorSeries is empty.
     if(behaviorSeries.empty()) {
@@ -150,6 +157,8 @@ void BehaviorManager::tellIdleState(bool state)
     BehaviorModule::idleState msg;
     msg.idleState = state;
     publisher_idlestate_.publish(msg);
+
+    cout << "【Sent IdleState】: " << state << endl;
     
     // to be considered: 从空闲状态转换到有行为执行时是否需要告知情绪模块
 }
@@ -167,11 +176,11 @@ void BehaviorManager::updateBehaviorPub()
     if (!mvCurrentBehaviors.empty()){
         if(!pauseFlag)
         {
-            msg.name = "Pause";
+            msg.name = "Stop_All_Actions";
             publisher_behavior_.publish(msg);
             printMsgInfo(msg);
             pauseFlag = true;
-            cout << "Set pauseFlag true.\n\n";
+            cout << "Sent order: Stop_All_Actions, waiting for feedback of current behavior.\n\n";
         }
         return;
     }
@@ -217,7 +226,7 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
     vector<Behavior>::iterator itor = behaviorSeries.begin();
 
     for (auto &behavior : behaviorSeries){
-        if(judgeSameStamp(behavior.header, msg.header)){
+        if (behavior.name == msg.hehavior_name && judgeSameStamp(behavior.header, msg.header)){
             rightBehaviorFlag = true;
             if(msg.current_phase > behavior.current_phase && 
                             msg.current_phase <= behavior.total_phase)
@@ -240,7 +249,7 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
     }
 
     if (!rightBehaviorFlag){
-        cout << "No behavior \"" << msg.hehavior_name << "\" in the whole behavior series." << endl;
+        cout << "THere is no behavior \"" << msg.hehavior_name << "\" with stamp.sec==" <<  msg.header.stamp.sec << endl;
         return;
     }
 
@@ -271,7 +280,7 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
         }
         itor++;
     }
-    cout << "No behavior \"" << msg.hehavior_name << "\" in current behavior series to be paused." << endl;
+    cout << "   No behavior \"" << msg.hehavior_name << "\" in current behavior series to be paused." << endl << endl;
     return;
 }
 
@@ -294,27 +303,13 @@ void BehaviorManager::printAllBehaviors()
         for (auto &sub_behavior:behavior.subBehaviorSeries){
             cout << "                {\n";
             cout << "                    'discription'   : '" << sub_behavior.discription << "',\n";
-            cout << "                    'Gaze'          : {";
-            if (sub_behavior.gaze.is_necessary) cout << "true";
-            else cout << "false";
-            cout << "," << sub_behavior.gaze.weight << "},\n";
-            cout << "                    'Emotion'       : {";
-            if (sub_behavior.emotion.is_necessary) cout << "true";
-            else cout << "false";
-            cout << "," << sub_behavior.emotion.weight << "},\n";
-            cout << "                    'Voice'         : {";
-            if (sub_behavior.voice.is_necessary) cout << "true";
-            else cout << "false";
-            cout << "," << sub_behavior.voice.weight << "},\n";
-            cout << "                    'Manipulator'   : {";
-            if (sub_behavior.manipulator.is_necessary) cout << "true";
-            else cout << "false";
-            cout << "," << sub_behavior.manipulator.weight << "},\n";
-            cout << "                    'Mover'         : {";
-            if (sub_behavior.mover.is_necessary) cout << "true";
-            else cout << "false";
-            cout << "," << sub_behavior.mover.weight << "},\n";
-            
+            vector<string> actuators = {"Gaze", "Emotion", "Voice", "Manipulator", "Mover"};
+            for (int  i = 0; i < 5; i++) {
+                cout << "                    " << actuators[i] << "          : {";
+                if (sub_behavior.mActuators[i]->is_necessary) cout << "true";
+                else cout << "false";
+                cout << "," << sub_behavior.mActuators[i]->weight << "},\n";
+            }
             cout << "                },\n";
         }
         cout << "        },\n";
@@ -386,9 +381,10 @@ void BehaviorManager::printCurrentSeries()
         cout << "BehaviorSeries is empty now." << endl;
         return;
     }
-    cout << "Order\t" << "weight\t" << "phase\t" << "necessary\t" << "name\t" << endl;
+    cout << "       " << "Order\t" << "weight\t" << "phase\t" << "necessary\t" << "name\t" << "target\t" << "stamp.secs\t" << endl;
     int order = 1;
-    for(auto behavior:behaviorSeries){
+    for(auto &behavior: behaviorSeries){
+        cout << "       ";
         cout << order << "\t" 
              << behavior.weight << "\t"
              << behavior.current_phase << "/" << behavior.total_phase << "\t"
@@ -396,11 +392,18 @@ void BehaviorManager::printCurrentSeries()
         for(int i = 1 ; i < 5 ; i++){
             cout << "," << behavior.necessary_count[i];
         }
-        cout << "} " << "\t" << behavior.name << "\t" << endl;
+        cout << "} \t";
+        cout << behavior.name << "\t";
+        if (behavior.target=="")
+            cout << "None" << "\t";
+        else
+            cout << behavior.target << "\t";
+        cout << behavior.header.stamp.sec << "\t";
+        cout << endl;
         order ++;
     }
-    cout << "行为停止后有待并行的行为数量 :" << parallelNum << endl;
-    cout << "当前正在并行的行为数量 : " << mvCurrentBehaviors.size() << endl;
+    cout << "   行为停止后有待并行的行为数量 :" << parallelNum << endl;
+    cout << "   当前正在并行的行为数量 : " << mvCurrentBehaviors.size() << endl;
     cout << endl;
     return;
 }
