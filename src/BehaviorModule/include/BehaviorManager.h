@@ -112,13 +112,16 @@ public:
 
     void configureByNeedMsg(const BehaviorModule::need_msg &msg)
     {
+        cout << "ConfigureByNeedMsg" << endl;
         name = msg.need_name;
         target = msg.person_name;
+        IDtype = msg.IDtype;
         target_angle = msg.target_angle;
         target_distance = msg.target_distance;
         speech = msg.speech;
         rob_emotion = msg.rob_emotion;
         rob_emotion_intensity = msg.rob_emotion_intensity;
+        person_emotion = msg.person_emotion;
     }
 
 public:
@@ -129,11 +132,14 @@ public:
     int current_phase = 0;
     int total_phase;
     string target;
+    string IDtype;
     float target_angle;
     float target_distance;
     string speech;
     string rob_emotion;
+    string person_emotion;
     int rob_emotion_intensity;
+
     
     // other params
     double weight;
@@ -166,7 +172,7 @@ public:
         publisher_behavior_ = n_.advertise<BehaviorModule::behavior_msg>("/BehaviorInstruction", 1000);
         publisher_idlestate_ = n_.advertise<BehaviorModule::idleState>("/idleState",1000);
         subscriber_behavior_feedback_ = n_.subscribe("/BehaviorFeedback", 1000, &BehaviorManager::behavior_feedback_callback, this);
-        tellIdleState(true);
+        tellIdleState(true, nullptr);
     };
 
     /**
@@ -246,7 +252,7 @@ private:
      * @param new_behavior 需添加的新行为
      */
     void addNewBehavior(Behavior &new_behavior);
-    void tellIdleState(bool state);
+    void tellIdleState(bool state, Behavior *completedBehavior);
 
     /**
      * @brief 更新行为消息的发布

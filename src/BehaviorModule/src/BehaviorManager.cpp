@@ -32,7 +32,6 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
 
     // printf("behavior_num = %d\n", behavior_num);
 
-
     for(int i=0; i<behavior_num; i++){
         // printf("i = %d", i);
         auto root_i = root["behavior"][i];
@@ -97,11 +96,11 @@ bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
         cout << " fails." << endl;
         return false;
     }
-    cout << " succeeds." << endl;
+    cout << " succeeds." << endl << endl;
 
     Behavior new_behavior(behavior_index->second, false);
 
-    cout << "before configureByNeedMsg" << endl;
+    
 
     new_behavior.configureByNeedMsg(msg);
 
@@ -125,11 +124,12 @@ void BehaviorManager::addNewBehavior(Behavior &new_behavior)
 {
     // Judge if behaviorSeries is empty.
     if(behaviorSeries.empty()) {
-        tellIdleState(false);
+        tellIdleState(false, nullptr);
     }
     else{
         // Judge if a light behavior exists.
         if(behaviorSeries[0].is_light){
+            tellIdleState(false, &(behaviorSeries[0]));
             behaviorSeries.clear();
             insertBehavior(new_behavior);
             parallelNum = 1;
@@ -151,14 +151,24 @@ void BehaviorManager::addNewBehavior(Behavior &new_behavior)
     return;
 }
 
-void BehaviorManager::tellIdleState(bool state)
+void BehaviorManager::tellIdleState(bool state, Behavior *completedBehavior)
 {
     //TODO: tell EmotionModule the idle state
     BehaviorModule::idleState msg;
     msg.idleState = state;
+    if (completedBehavior == nullptr) {
+        msg.hehavior_name = "None";
+    }
+    else {
+        msg.hehavior_name = completedBehavior->name;
+        msg.person_name = completedBehavior->target;
+        msg.IDtype = completedBehavior->IDtype;
+        msg.target_angle = completedBehavior->target_angle;
+        msg.target_distance = completedBehavior->target_distance;
+        msg.person_emotion = completedBehavior->person_emotion;
+    }
     publisher_idlestate_.publish(msg);
-
-    cout << "【Sent IdleState】: " << state << endl;
+    cout << "【Sent IdleState】: " << state << ", Behavior : " << msg.hehavior_name << endl;
     
     // to be considered: 从空闲状态转换到有行为执行时是否需要告知情绪模块
 }
@@ -223,6 +233,7 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
 
     // to be tested: varify behavior by stamp
     bool rightBehaviorFlag = false;
+    bool completeFlag = false;
     vector<Behavior>::iterator itor = behaviorSeries.begin();
 
     for (auto &behavior : behaviorSeries){
@@ -232,9 +243,8 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
                             msg.current_phase <= behavior.total_phase)
             {
                 behavior.current_phase = msg.current_phase;
-                if (msg.current_phase == behavior.total_phase)
-                {
-                    behaviorSeries.erase(itor);
+                if (msg.current_phase == behavior.total_phase) {
+                    completeFlag = true;
                 }
                 printCurrentSeries();
                 break;
@@ -246,6 +256,12 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
             }
         }
         itor++;
+    }
+
+    if (completeFlag == true){
+        bool idleState = (behaviorSeries.size() == 1);
+        tellIdleState(idleState, &(*itor));
+        behaviorSeries.erase(itor);
     }
 
     if (!rightBehaviorFlag){
@@ -272,7 +288,7 @@ void BehaviorManager::behavior_feedback_callback(const BehaviorModule::behavior_
                     updateBehaviorPub();
                 }
                 else if (behaviorSeries.empty()) {
-                    tellIdleState(true);
+                    // tellIdleState(true);
                 }
             }
             printCurrentSeries();
