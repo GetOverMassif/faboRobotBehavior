@@ -143,10 +143,11 @@ void BehaviorManager::addNewBehavior(Behavior &new_behavior)
     int insertLocation = insertBehavior(new_behavior);
     parallelNum = computeParallel();
     printCurrentSeries();
-    // cout << "insertLocation = " << insertLocation << endl; 
-    // cout << "parallelNum = " << parallelNum << endl; 
     if (insertLocation <= parallelNum){
         updateBehaviorPub();
+    }
+    else {
+        // 如果行为有交互对象，则告知对方等一下
     }
     return;
 }
@@ -169,8 +170,6 @@ void BehaviorManager::tellIdleState(bool state, Behavior *completedBehavior)
     }
     publisher_idlestate_.publish(msg);
     cout << "【Sent IdleState】: " << state << ", Behavior : " << msg.hehavior_name << endl;
-    
-    // to be considered: 从空闲状态转换到有行为执行时是否需要告知情绪模块
 }
 
 // Make the necessary judge, update the parallel behaviors to be execute
