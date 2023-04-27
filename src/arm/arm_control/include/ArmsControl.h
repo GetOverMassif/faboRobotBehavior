@@ -20,7 +20,7 @@
 #include <rm_msgs/Tool_Digital_Output.h>
 #include <rm_msgs/MoveJ.h>
 #include <arm_control/Arms.h>
-#include "common_include.h"
+#include "utils.h"
 
 #include <mutex>
 #include <thread>

@@ -30,7 +30,8 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
 
     int behavior_num = root["behavior"].size();
 
-    // printf("behavior_num = %d\n", behavior_num);
+    printInColor("\nBehavior list: ", BLUE);
+    cout << "(name, phase)" << endl;
 
     for(int i=0; i<behavior_num; i++){
         // printf("i = %d", i);
@@ -79,7 +80,9 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
         behavior.subBehaviorSeries = sub_behaviors;
         behavior.total_phase = behavior.subBehaviorSeries.size();
         behavior_library.insert(pair<string,Behavior>(behavior_name, behavior));
+        cout << "  - " << behavior_name << ", " << sub_behavior_num << endl;
     }
+    cout << endl;
     cout << "Finish behavior_library creation." << endl;
 }
 

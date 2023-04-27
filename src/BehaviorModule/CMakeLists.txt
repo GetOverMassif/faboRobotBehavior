@@ -131,6 +131,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   /usr/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../PerformModule/include
 )
 
 ## Declare a C++ library

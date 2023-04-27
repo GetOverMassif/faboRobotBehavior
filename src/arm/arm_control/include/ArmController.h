@@ -16,7 +16,7 @@
 #include <thread>
 
 #include "ArmsActionManager.h"
-#include "common_include.h"
+#include "utils.h"
 
 #include <ros/ros.h>
 #include <rm_msgs/MoveJ.h>
@@ -26,6 +26,7 @@
 
 
 using namespace std;
+using namespace FABO_ROBOT;
 
 class ArmController
 {

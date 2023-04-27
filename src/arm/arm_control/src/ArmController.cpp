@@ -96,7 +96,7 @@ void ArmController::pubHand()
             loop_rate.sleep();
             mPubToolDOutput.publish(DO_msg);
         }
-        FABO_ROBOT::printInColor("Successfully open hand of ", FABO_ROBOT::GREEN);
+        printInColor("Successfully open hand of ", FABO_ROBOT::GREEN);
         printNum();
     }
     else{
@@ -108,7 +108,7 @@ void ArmController::pubHand()
             loop_rate.sleep();
             mPubToolAOutput.publish(AO_msg);
         }
-        FABO_ROBOT::printInColor("Successfully hold hand of ", FABO_ROBOT::GREEN);
+        printInColor("Successfully hold hand of ", FABO_ROBOT::GREEN);
         printNum();
     }
 }
@@ -116,7 +116,7 @@ void ArmController::pubHand()
 void ArmController::PlanStateCallback(const rm_msgs::Plan_State &msg){
     unique_lock<mutex> lock(mutexArmConfigs);
     printNum();
-    FABO_ROBOT::printInColor("!!! PlanStateCallback 成功\n\n", FABO_ROBOT::BLUE);
+    printInColor("!!! PlanStateCallback 成功\n\n", FABO_ROBOT::BLUE);
     if (msg.state){
         if(!mArmConfigs.empty()){
             mArmConfigs.erase(mArmConfigs.begin());

@@ -7,8 +7,8 @@
  * @LastEditTime: 2022-08-28 16:42:35
  */
 
-#ifndef COMMON_INCLUDE_H
-#define COMMON_INCLUDE_H
+#ifndef UTILS_H
+#define UTILS_H
 
 #include <sstream>
 #include "arm_control/Arms.h"
