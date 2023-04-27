@@ -47,6 +47,11 @@ enum printColor{
     // 红色-31，绿色-32，黄色-33，蓝色-34，品红-35，青色-36
 };
 
+void printInColor(const std::string contentStr, const printColor color){
+    const char* content = contentStr.c_str();
+    printInColor(content, color);
+}
+
 void printInColor(const char *content, const printColor color){
     printf("\033[0m");
 

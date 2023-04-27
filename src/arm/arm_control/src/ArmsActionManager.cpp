@@ -55,6 +55,13 @@ void ArmsActionManager::readinActions(const string &config_file){
             action_library.insert(pair<string,ArmsAction>(action_name,ArmsAction(action_name,left_arm_action,right_arm_action)));
         }
     }
+    cout << endl;
+    printInColor("Arm action List: ", BLUE);
+    cout << endl;
+    for (auto &action: action_library) {
+        cout << "  - " << action.first << endl;
+    }
+    cout << endl;
 }
 
 void ArmsActionManager::readinArmConfig(Json::Value root,std::vector<ArmConfig>& single_arm_action){

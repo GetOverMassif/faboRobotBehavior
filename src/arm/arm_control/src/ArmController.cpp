@@ -43,7 +43,7 @@ void ArmController::updateMoveJ(std::vector<ArmConfig> armConfigs){
         mArmConfigs.push_back(config_copy);
     }
     printNum();
-    printf("!!! updateMoveJ 成功\n");
+    printf("!!! updateMoveJ 成功\n\n");
     mtpubMoveJ = new thread(&ArmController::pubMoveJ, this);
     mtpubMoveJ->detach();
 }

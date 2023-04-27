@@ -25,7 +25,9 @@ void ArmsControl::arm_action_callback(const arm_control::Arms &msg)
     auto action_index = action_library.find(msg.action);
 
     if(action_index != action_library.end()){
-        cout << "Receive arm_action order: " << msg.action << endl;
+        cout << "\nReceive arm_action order: ";
+        printInColor(msg.action, BLUE);
+        cout << endl << endl;
 
         auto l_arm_action = action_index->second.left_arm_action;
         auto r_arm_action = action_index->second.right_arm_action;
