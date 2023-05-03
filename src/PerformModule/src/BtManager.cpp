@@ -43,7 +43,7 @@ void BtManager::sendBtData(string str){
 
     write(blueteeth, str_char, strlen(str_char));
 
-    printInColor("发送完成\n\n", BLUE);
+    printf("发送完成\n\n");
 }
 
 void BtManager::processBtData(string btData_str){
