@@ -115,16 +115,25 @@ public:
 
     void configureByNeedMsg(const BehaviorModule::need_msg &msg)
     {
-        cout << "ConfigureByNeedMsg" << endl;
+        cout << "ConfigureByNeedMsg kk" << endl;
         name = msg.need_name;
+        scene = msg.scene;
         target = msg.person_name;
         IDtype = msg.IDtype;
         target_angle = msg.target_angle;
         target_distance = msg.target_distance;
+        person_emotion = msg.person_emotion;
+        rob_emotion_intensity = msg.rob_emotion_intensity;
+        printf("2. weight = %2f", weight);
+        // weight = msg.weight; // TODO：是否由需求给出权重
         speech = msg.speech;
         rob_emotion = msg.rob_emotion;
-        rob_emotion_intensity = msg.rob_emotion_intensity;
-        person_emotion = msg.person_emotion;
+        satisfy_value = msg.satisfy_value;
+        attitude = msg.attitude;
+        move_speed = msg.move_speed;
+        distance = msg.distance;
+        voice_speed = msg.voice_speed;
+        cout << "Finish ConfigureByNeedMsg" << endl;
     }
 
 public:
@@ -132,6 +141,7 @@ public:
     std_msgs::Header header;
     string name;
     string type;
+    string scene;
     int current_phase = 0;
     int total_phase;
     string target;
@@ -142,7 +152,11 @@ public:
     string rob_emotion;
     string person_emotion;
     int rob_emotion_intensity;
-
+    int satisfy_value;
+    string attitude;
+    float move_speed;
+    float distance;
+    float voice_speed;
     
     // other params
     double weight;
@@ -197,6 +211,8 @@ public:
      */
     void readinBehaviorLibrary(const string &config_file);
 
+    Behavior* getBehaviorByName(string name);
+
     /**
      * @brief 读取需求话题消息
      * 
@@ -221,27 +237,7 @@ public:
         }
     }
 
-    BehaviorModule::behavior_msg generateOrderMsgByBehavior(const Behavior& beh)
-    {
-        BehaviorModule::behavior_msg msg;
-        {
-            msg.header.frame_id = beh.header.frame_id;
-            msg.header.seq = beh.header.seq;
-            msg.header.stamp.sec = (int)(beh.header.stamp.sec);
-            msg.header.stamp.nsec = (int)(beh.header.stamp.nsec);
-        }
-        msg.name = beh.name;
-        msg.type = beh.type;
-        msg.current_phase = beh.current_phase;
-        msg.total_phase = beh.total_phase;
-        msg.target = beh.target;
-        msg.target_angle = beh.target_angle;
-        msg.target_distance = beh.target_distance;
-        msg.speech = beh.speech;
-        msg.rob_emotion = beh.rob_emotion;
-        msg.rob_emotion_intensity = beh.rob_emotion_intensity;
-        return msg;
-    }
+    BehaviorModule::behavior_msg generateOrderMsgByBehavior(const Behavior& beh);
     
 private:
     ros::NodeHandle n_;

@@ -155,6 +155,19 @@
                 }
             ]
         },{
+            "name" : "TellToWait",
+            "weight" : 0.98, "type" : "INTERACTION", "is_light": false,
+            "subBehavior":[
+                {
+                    "discription"   : "Tell target to wait.",
+                    "Gaze"          : {"is_necessary" : false,  "weight" : 1.0},
+                    "Emotion"       : {"is_necessary" : false,  "weight" : 1.0},
+                    "Voice"         : {"is_necessary" : true, "weight" : 0.5},
+                    "Manipulator"   : {"is_necessary" : false,  "weight" : 1.0},
+                    "Mover"         : {"is_necessary" : false, "weight" : 0.5}
+                }
+            ]
+        },{
             "name":"MeasureTemperature",
             "weight" : 0.7, "type" : "INTERACTION", "is_light": false,
             "subBehavior":[

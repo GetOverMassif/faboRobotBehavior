@@ -5,3 +5,4 @@ string IDtype               # 用户身份
 float64 target_angle        # 交互对象角度
 float64 target_distance     # 交互对象距离
 string person_emotion       # 用户的心情
+int8 satisfy_value          # 需求自我满足值[用于情感模块中的自我评价]

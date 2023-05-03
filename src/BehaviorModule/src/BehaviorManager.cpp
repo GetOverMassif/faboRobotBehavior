@@ -86,6 +86,20 @@ void BehaviorManager::readinBehaviorLibrary(const string &config_file)
     cout << "Finish behavior_library creation." << endl;
 }
 
+Behavior* BehaviorManager::getBehaviorByName(string name)
+{
+    auto behavior_index = behavior_library.find(name);
+    if (behavior_index == behavior_library.end()){
+        cout << " fails." << endl;
+        return nullptr;
+    }
+    cout << " succeeds." << endl << endl;
+    Behavior* new_behavior = new Behavior(behavior_index->second, false);
+
+    printf("1.2. weight = %2f\n", new_behavior->weight);
+    return new_behavior;
+}
+
 // Handle need message and generate the behavior instance 
 // with behavior_library data and need message's configuration.
 bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
@@ -94,31 +108,27 @@ bool BehaviorManager::readInNewNeed(const BehaviorModule::need_msg &msg)
     cout << "【addNewBehavior】" << need_name;
 
     // 1. Query the need in behavior_library.
-    auto behavior_index = behavior_library.find(need_name);
-    if (behavior_index == behavior_library.end()){
-        cout << " fails." << endl;
-        return false;
+    Behavior* new_behavior = getBehaviorByName(need_name);
+
+
+    if (new_behavior != nullptr)
+    {
+        printf("1. weight = %2f", new_behavior->weight);
+        (*new_behavior).configureByNeedMsg(msg);
+        printf("3. weight = %2f", new_behavior->weight);
+
+
+        // TODO: Configure behavior
+
+        // 2. Configure the behavior instance in different ways according to the type of behavior.
+        // if (new_behavior.type == "EXPRESSION"){}
+        // else if (new_behavior.type == "INTERACTION"){
+        //     new_behavior.target = msg.person_name;
+        // }
+        printf("Before addNewBehavior");
+        addNewBehavior(*new_behavior);
+        return true;
     }
-    cout << " succeeds." << endl << endl;
-
-    Behavior new_behavior(behavior_index->second, false);
-
-    
-
-    new_behavior.configureByNeedMsg(msg);
-
-    // TODO: Configure behavior
-
-    // 2. Configure the behavior instance in different ways according to the type of behavior.
-    // if (new_behavior.type == "EXPRESSION"){}
-    // else if (new_behavior.type == "INTERACTION"){
-    //     new_behavior.target = msg.person_name;
-    // }
-    
-
-    addNewBehavior(new_behavior);
-
-    return true;
 }
 
 // Delete light behavior, add the new behavior instance into behaviorSeries
@@ -150,7 +160,21 @@ void BehaviorManager::addNewBehavior(Behavior &new_behavior)
         updateBehaviorPub();
     }
     else {
-        // 如果行为有交互对象，则告知对方等一下
+        //TODO: 如果行为有交互对象，则告知对方等一下
+        if (new_behavior.type=="INTERACTION")
+        {
+            string need_name = "TellToWait";
+            Behavior* tell_behavior = getBehaviorByName(need_name);
+            if (tell_behavior!=nullptr) {
+                tell_behavior->target = new_behavior.target;
+                tell_behavior->target_angle = new_behavior.target_angle;
+                tell_behavior->target_distance = new_behavior.target_distance;
+                addNewBehavior(*tell_behavior);
+            }
+            else {
+                printf("No behavior called %s", need_name);
+            }
+        }
     }
     return;
 }
@@ -170,6 +194,7 @@ void BehaviorManager::tellIdleState(bool state, Behavior *completedBehavior)
         msg.target_angle = completedBehavior->target_angle;
         msg.target_distance = completedBehavior->target_distance;
         msg.person_emotion = completedBehavior->person_emotion;
+        msg.satisfy_value = completedBehavior->satisfy_value;
     }
     publisher_idlestate_.publish(msg);
     cout << "【Sent IdleState】: " << state << ", Behavior : " << msg.hehavior_name << endl;
@@ -335,6 +360,33 @@ void BehaviorManager::printAllBehaviors()
     cout << "    }\n";
 }
 
+BehaviorModule::behavior_msg BehaviorManager::generateOrderMsgByBehavior(const Behavior& beh)
+{
+    BehaviorModule::behavior_msg msg;
+    {
+        msg.header.frame_id = beh.header.frame_id;
+        msg.header.seq = beh.header.seq;
+        msg.header.stamp.sec = (int)(beh.header.stamp.sec);
+        msg.header.stamp.nsec = (int)(beh.header.stamp.nsec);
+    }
+    msg.name = beh.name;
+    msg.scene = beh.scene;
+    msg.type = beh.type;
+    msg.current_phase = beh.current_phase;
+    msg.total_phase = beh.total_phase;
+    msg.target = beh.target;
+    msg.target_angle = beh.target_angle;
+    msg.target_distance = beh.target_distance;
+    msg.speech = beh.speech;
+    msg.rob_emotion = beh.rob_emotion;
+    msg.rob_emotion_intensity = beh.rob_emotion_intensity;
+    msg.attitude = beh.attitude;
+    msg.move_speed = beh.move_speed;
+    msg.distance = beh.distance;
+    msg.voice_speed = beh.voice_speed;
+    return msg;
+}
+
 int BehaviorManager::insertBehavior(Behavior &new_behavior)
 {
     int index = 0;
@@ -429,7 +481,7 @@ void BehaviorManager::printCurrentSeries()
 void BehaviorManager::printMsgInfo(BehaviorModule::behavior_msg msg)
 {
     cout << "【Sent behavior_msg】" << endl;
-    cout << msg.name << "\t" << msg.type << "\t" << (int)msg.current_phase << "/" << (int)msg.total_phase << "\t";
+    cout << msg.name << "\t" << msg.target << "\t" << msg.type << "\t" << (int)msg.current_phase << "/" << (int)msg.total_phase << "\t";
     cout << "{" << (int)msg.occupancy[0];
     for(int i = 1 ; i < 5 ; i++){
         cout << "," << (int)msg.occupancy[i];
