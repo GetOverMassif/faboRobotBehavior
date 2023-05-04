@@ -1,8 +1,0 @@
-<launch>
-    <include file="$(find arm_control)/launch/arm_control.launch">
-    </include>
-    <node pkg="BehaviorModule" name="behavior_node" type="behavior_node" output="screen"> <!--launch-prefix="xterm−e"-->
-    </node>
-    <node pkg="PerformModule" name="blueteeth_demo_node" type="blueteeth_demo_node" output="screen"> <!--launch-prefix="xterm−e"-->
-    </node>
-</launch>

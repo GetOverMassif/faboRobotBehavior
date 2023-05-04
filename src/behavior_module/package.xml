@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>PerformModule</name>
+  <name>behavior_module</name>
   <version>0.0.0</version>
-  <description>The PerformModule package</description>
+  <description>The behavior_module package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/PerformModule</url> -->
+  <!-- <url type="website">http://wiki.ros.org/behavior_module</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -60,7 +60,8 @@
   <exec_depend>std_msgs</exec_depend>
   <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>
-
+  <build_depend>roslib</build_depend>
+  <exec_depend>roslib</exec_depend>
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->

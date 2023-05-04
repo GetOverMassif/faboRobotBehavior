@@ -2,6 +2,9 @@
 
 ArmsControl::ArmsControl(ros::NodeHandle& n)
 {
+    printInColor("==================================\n", BLUE);
+    printInColor(" Welcome to use arm_module! \n", BLUE);
+    printInColor("==================================\n", BLUE);
     n_ = n;
     subscriber_arm_ = n_.subscribe("/arm_action", 1000, &ArmsControl::arm_action_callback, this);
     service_hold_hand_ = n_.advertiseService("hand_control", &ArmsControl::hand_callback,this);

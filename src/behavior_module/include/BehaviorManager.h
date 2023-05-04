@@ -6,10 +6,10 @@
 #include <vector>
 #include <fstream>
 #include <std_msgs/Header.h>
-#include <BehaviorModule/need_msg.h>
-#include <BehaviorModule/behavior_msg.h>
-#include <BehaviorModule/behavior_feedback_msg.h>
-#include <BehaviorModule/idleState.h>
+#include <behavior_module/need_msg.h>
+#include <behavior_module/behavior_msg.h>
+#include <behavior_module/behavior_feedback_msg.h>
+#include <behavior_module/idleState.h>
 
 #include "utils.h"
 // #include <bits/stdc++.h>
@@ -113,9 +113,8 @@ public:
         }
     }
 
-    void configureByNeedMsg(const BehaviorModule::need_msg &msg)
+    void configureByNeedMsg(const behavior_module::need_msg &msg)
     {
-        cout << "ConfigureByNeedMsg kk" << endl;
         name = msg.need_name;
         scene = msg.scene;
         target = msg.person_name;
@@ -124,7 +123,6 @@ public:
         target_distance = msg.target_distance;
         person_emotion = msg.person_emotion;
         rob_emotion_intensity = msg.rob_emotion_intensity;
-        printf("2. weight = %2f", weight);
         // weight = msg.weight; // TODO：是否由需求给出权重
         speech = msg.speech;
         rob_emotion = msg.rob_emotion;
@@ -133,11 +131,10 @@ public:
         move_speed = msg.move_speed;
         distance = msg.distance;
         voice_speed = msg.voice_speed;
-        cout << "Finish ConfigureByNeedMsg" << endl;
     }
 
 public:
-    // params to pass to PerformModule
+    // params to pass to perform_module
     std_msgs::Header header;
     string name;
     string type;
@@ -184,11 +181,15 @@ public:
      * 
      * @param n 行为管理器所关联的节点句柄，用于接受和发送话题。
      */
-    BehaviorManager(ros::NodeHandle& n):n_(n)
+    BehaviorManager(ros::NodeHandle& n, string data_path):n_(n)
     {
-        publisher_behavior_ = n_.advertise<BehaviorModule::behavior_msg>("/BehaviorInstruction", 1000);
-        publisher_idlestate_ = n_.advertise<BehaviorModule::idleState>("/idleState",1000);
+        printInColor("==================================\n", BLUE);
+        printInColor(" Welcome to use behavior_module! \n", BLUE);
+        printInColor("==================================\n", BLUE);
+        publisher_behavior_ = n_.advertise<behavior_module::behavior_msg>("/BehaviorInstruction", 1000);
+        publisher_idlestate_ = n_.advertise<behavior_module::idleState>("/idleState",1000);
         subscriber_behavior_feedback_ = n_.subscribe("/BehaviorFeedback", 1000, &BehaviorManager::behavior_feedback_callback, this);
+        readinBehaviorLibrary(data_path);
         tellIdleState(true, nullptr);
     };
 
@@ -200,7 +201,7 @@ public:
     void loadHandle(ros::NodeHandle& n)
     {
         n_ = n;
-        publisher_behavior_ = n_.advertise<BehaviorModule::behavior_msg>("/BehaviorInstruction", 1000);
+        publisher_behavior_ = n_.advertise<behavior_module::behavior_msg>("/BehaviorInstruction", 1000);
         subscriber_behavior_feedback_ = n_.subscribe("/BehaviorFeedback", 1000, &BehaviorManager::behavior_feedback_callback, this);
     }
 
@@ -220,7 +221,7 @@ public:
      * @return true   需求读入成功
      * @return false  需求读入失败
      */
-    bool readInNewNeed(const BehaviorModule::need_msg &msg);
+    bool readInNewNeed(const behavior_module::need_msg &msg);
 
     /**
      * @brief 打印出行为数据库的数据
@@ -237,7 +238,7 @@ public:
         }
     }
 
-    BehaviorModule::behavior_msg generateOrderMsgByBehavior(const Behavior& beh);
+    behavior_module::behavior_msg generateOrderMsgByBehavior(const Behavior& beh);
     
 private:
     ros::NodeHandle n_;
@@ -264,7 +265,7 @@ private:
      * 
      * @param msg 行为执行情况的反馈话题 behavior_feedback_msg.msg
      */
-    void behavior_feedback_callback(const BehaviorModule::behavior_feedback_msg &msg);
+    void behavior_feedback_callback(const behavior_module::behavior_feedback_msg &msg);
     
     /**
      * @brief 向总的行为序列中插入一个行为
@@ -287,11 +288,13 @@ private:
      */
     void printCurrentSeries();
 
+    void printBehaviors(vector<Behavior> &behaviorSeries);
+
     /**
      * @brief 打印出行为消息的信息
      * 
      */
-    void printMsgInfo(BehaviorModule::behavior_msg);
+    void printMsgInfo(behavior_module::behavior_msg);
 
     // 数据库所有行为名称的集合，用于在响应需求时判断是否有对应的行为
     set<std::string> behavior_catalog;

@@ -13,17 +13,17 @@ To control robot arms to do designed actions:
 roslaunch arm_control arm_control.launch
 ```
 
-To test BehaviorModule only:
+To test behavior_module only:
 ```bash
-rosrun BehaviorModule behavior_node
+rosrun behavior_module behavior_node
 ```
 
-To test BehaviorModule and PerformModule together, controling fabo by bluetooth:
+To test behavior_module and perform_module together, controling fabo by bluetooth:
 ```bash
-roslaunch BehaviorModule bluetooth_demo.launch
+roslaunch behavior_module bluetooth_demo.launch
 ```
 
 Use the following to **publish different topics more easily**:
 ```bash
-rosrun BehaviorModule talker.py
+rosrun behavior_module talker.py
 ```

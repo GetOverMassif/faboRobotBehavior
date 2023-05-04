@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(BehaviorModule)
+project(behavior_module)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -116,7 +116,7 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-  LIBRARIES BehaviorModule
+  LIBRARIES behavior_module
   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
 #  DEPENDS system_lib
 )
@@ -131,7 +131,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   /usr/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/../PerformModule/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../perform_module/include
 )
 
 ## Declare a C++ library

@@ -70,7 +70,7 @@ void printInColor(const char *content, const printColor color){
         printf("\033[1;36m");
     
     printf("%s", content);
-    printf("\033[0m ");
+    printf("\033[0m");
 }
 
 };
