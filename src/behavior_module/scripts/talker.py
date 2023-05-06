@@ -12,30 +12,40 @@ def editNeedMsg():
     msg = need_msg()
     message = input(" - need_name,person_name : \n   ")
     info = message.split(',')
-    msg.need_name = info[0]
-    msg.person_name = info[1]
+    print(f"info = {info}")
+    if (len(info) == 2):
+        msg.need_name = info[0]
+        msg.person_name = info[1]
+    else:
+        print("Error: num of args != 2")
     return msg
 
 def editBehaviorOrder():
     msg = behavior_msg()
     message = input(" - name,target,current_phase,total_phase : \n   ")
     info = message.split(',')
-    if (len(info) != 4):
+    print(f"info = {info}")
+    if (len(info) == 4):
         msg.name = info[0]
         msg.target = info[1]
         msg.current_phase = int(info[2])
         msg.total_phase = int(info[3])
+    else:
+        print("Error: num of args != 4")
     return msg
 
 def editBehaviorFeedback():
     msg = behavior_feedback_msg()
     message = input(" - hehavior_name,stamp(sec),current_phase,total_phase : \n   ")
     info = message.split(',')
-    if (len(info) != 4):
+    print(f"info = {info}")
+    if (len(info) == 4):
         msg.header.stamp.secs = int(info[1])
-        msg.hehavior_name = info[0]
+        msg.hehavior_name = str(info[0])
         msg.current_phase = int(info[2])
         msg.total_phase = int(info[3])
+    else:
+        print("Error: num of args != 4")
     return msg
 
 def editIdleStateMsg():
