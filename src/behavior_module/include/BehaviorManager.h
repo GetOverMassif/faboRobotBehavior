@@ -3,6 +3,8 @@
 #include <jsoncpp/json/json.h>
 #include <string>
 #include <vector>
+#include <mutex>
+#include <thread>
 #include <fstream>
 #include <std_msgs/Header.h>
 #include <behavior_module/need_msg.h>
@@ -184,8 +186,11 @@ private:
     ros::Subscriber subscriber_behavior_feedback_;
     ros::Subscriber subscriber_need_;
 
+    mutex mutexBehaviorsTotal;
+    // thread *mtpubMoveJ;
+
     void readinBehaviorLibrary(const string &config_file);
-    void addNewBehavior(Behavior &new_behavior);
+    int addNewBehavior(Behavior &new_behavior);
     void tellIdleState(bool state, Behavior *completedBehavior);
     Behavior* getBehaviorByName(string name);
     bool readInNewNeed(const behavior_module::need_msg &msg);
@@ -202,32 +207,34 @@ private:
     }
 
     void behavior_feedback_callback(const behavior_module::behavior_feedback_msg &msg);
+
     int insertBehavior(Behavior &new_behavior);
 
     int computeParallel();
+
     void printCurrentSeries();
 
-    void printBehaviors(vector<Behavior> &behaviorSeries);
+    void printBehaviors(vector<Behavior> &behaviors);
 
     void printMsgInfo(behavior_module::behavior_msg);
 
     // 数据库所有行为名称的集合，用于在响应需求时判断是否有对应的行为
-    set<std::string> behavior_catalog;
+    set<std::string> msbehaviorsCatalog;
 
     // 行为数据库
-    map<string,Behavior> behavior_library;
+    map<string,Behavior> mmbehaviorsLibrary;
 
     // 需要执行的总的行为序列，按权重从大到小排列
-    vector<Behavior> behaviorSeries;
+    vector<Behavior> mvbehaviorsTotal;
 
     // 当前正在并行执行的行为序列
-    vector<Behavior> mvCurrentBehaviors;
+    vector<Behavior> mvbehaviorsCurrent;
 
     // 存放占用各动作表现形式的行为序号
-    vector<int> occupancy = {1,1,1,1,1};
+    vector<int> mviOccupancy = {1,1,1,1,1};
 
     // 标记当前是否处于等待停顿状态
-    bool pauseFlag = false;
+    bool mbPauseFlag = false;
 
     // 存储最新算得的可并行行为数量
     int parallelNum = 1;
