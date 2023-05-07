@@ -1,5 +1,14 @@
 #include "BehaviorManager.h"
 
+bool judgeSameStamp(const std_msgs::Header& header1, const std_msgs::Header& header2) {
+    if (header1.stamp.sec == header2.stamp.sec)
+        return true;
+    else
+    {
+        return false;
+    }
+}
+
 // Read behavior data from .json file and save in behavior_library.
 void BehaviorManager::readinBehaviorLibrary(const string &config_file)
 {
@@ -119,6 +128,7 @@ bool BehaviorManager::readInNewNeed(const behavior_module::need_msg &msg)
     }
     else
         return false;
+    
 }
 
 // Delete light behavior, add the new behavior instance into behaviorSeries
