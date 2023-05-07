@@ -5,6 +5,7 @@
 #include <vector>
 #include <mutex>
 #include <thread>
+#include <unistd.h>
 #include <fstream>
 #include <std_msgs/Header.h>
 #include <behavior_module/need_msg.h>
@@ -187,7 +188,10 @@ private:
     ros::Subscriber subscriber_need_;
 
     mutex mutexBehaviorsTotal;
-    // thread *mtpubMoveJ;
+    mutex mutexCheckNewBeh;
+
+    bool mbNewBehFlag;
+    thread *mtWaitToUpdate;
 
     void readinBehaviorLibrary(const string &config_file);
     int addNewBehavior(Behavior &new_behavior);
@@ -197,6 +201,9 @@ private:
     void printAllBehaviors();
 
     behavior_module::behavior_msg generateOrderMsgByBehavior(const Behavior& beh);
+
+    void waitToUpdate(float wait_seconds);
+
     void updateBehaviorPub();
     void need_msg_callback(const behavior_module::need_msg &msg)
     {
@@ -237,5 +244,5 @@ private:
     bool mbPauseFlag = false;
 
     // 存储最新算得的可并行行为数量
-    int parallelNum = 1;
+    int mParallelNum = 1;
 };

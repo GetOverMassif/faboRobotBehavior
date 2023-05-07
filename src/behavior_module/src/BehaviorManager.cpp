@@ -127,9 +127,9 @@ bool BehaviorManager::readInNewNeed(const behavior_module::need_msg &msg)
     else {
         (*new_behavior).configureByNeedMsg(msg);
         int insert_location = addNewBehavior(*new_behavior);
-        int parallelNum = computeParallel();
+        computeParallel();
 
-        if (insert_location <= parallelNum){
+        if (insert_location <= mParallelNum){
             updateBehaviorPub();
         }
         else
@@ -143,6 +143,7 @@ bool BehaviorManager::readInNewNeed(const behavior_module::need_msg &msg)
                     tell_behavior->target_angle = new_behavior->target_angle;
                     tell_behavior->target_distance = new_behavior->target_distance;
                     addNewBehavior(*tell_behavior);
+                    computeParallel();
                     updateBehaviorPub();
                 }
                 else {
@@ -161,6 +162,11 @@ bool BehaviorManager::readInNewNeed(const behavior_module::need_msg &msg)
 int BehaviorManager::addNewBehavior(Behavior &new_behavior)
 {
     // Judge if mvbehaviorsTotal is empty.
+    {
+        unique_lock<mutex> lock(mutexCheckNewBeh);
+        mbNewBehFlag = true;
+    }
+
     if (mvbehaviorsTotal.empty()) {
         tellIdleState(false, nullptr);
         insertBehavior(new_behavior);
@@ -199,6 +205,22 @@ void BehaviorManager::tellIdleState(bool state, Behavior *completedBehavior)
     cout << state << ", Behavior : " << msg.hehavior_name << endl << endl;
 }
 
+void BehaviorManager::waitToUpdate(float wait_seconds)
+{
+    {
+        unique_lock<mutex> lock(mutexCheckNewBeh);
+        mbNewBehFlag = false;
+    }
+    sleep(wait_seconds);
+    {
+        unique_lock<mutex> lock(mutexCheckNewBeh);
+        if (!mbNewBehFlag) {
+            computeParallel();
+            updateBehaviorPub();
+        }
+    }
+}
+
 // Make the necessary judge, update the parallel behaviors to be execute
 // and finally pub them.
 void BehaviorManager::updateBehaviorPub()
@@ -222,7 +244,7 @@ void BehaviorManager::updateBehaviorPub()
 
     vector<behavior_module::behavior_msg> msgs;
 
-    for(int i = 0 ; i < parallelNum ; i++){
+    for(int i = 0 ; i < mParallelNum ; i++){
         mvbehaviorsCurrent.push_back(mvbehaviorsTotal[i]);
         msg = generateOrderMsgByBehavior(mvbehaviorsTotal[i]);
 
@@ -306,10 +328,13 @@ void BehaviorManager::behavior_feedback_callback(const behavior_module::behavior
                 // finish one behavior
                 mvbehaviorsCurrent.erase(itor);
                 if(mvbehaviorsCurrent.empty() && !mvbehaviorsTotal.empty()){
-                    if(!mbPauseFlag) parallelNum = 1;
+                    if(!mbPauseFlag) mParallelNum = 1;
                     mviOccupancy = {1,1,1,1,1};
                     mbPauseFlag = false;
-                    updateBehaviorPub();
+                    // TODO:
+                    mtWaitToUpdate = new thread(&BehaviorManager::waitToUpdate, this, 20);
+                    mtWaitToUpdate->detach();
+                    // updateBehaviorPub();
                 }
                 else if (mvbehaviorsTotal.empty()) {
                     // tellIdleState(true);
@@ -440,6 +465,7 @@ int BehaviorManager::computeParallel()
         }
     }
     cout << "Compute parallel_num = " << parallel_num << endl;
+    mParallelNum = parallel_num;
     return parallel_num;
 }
 
@@ -456,7 +482,7 @@ void BehaviorManager::printCurrentSeries()
     printBehaviors(mvbehaviorsCurrent);
 
     cout << endl;
-    cout << " - 行为停止后有待并行的行为数量 :" << parallelNum << endl;
+    cout << " - 行为停止后有待并行的行为数量 :" << mParallelNum << endl;
     cout << " - 当前正在并行的行为数量 : " << mvbehaviorsCurrent.size() << endl;
     cout << " - PauseFlag : " << mbPauseFlag << endl;
     cout << endl;
