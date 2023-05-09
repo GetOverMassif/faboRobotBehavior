@@ -1,20 +1,20 @@
 1.连接电脑和机器人的蓝牙
 2.打开机器人串口通信
-3.电脑建立串口服务，注意不与现有功能冲突：
-  3.1 查看本机已有服务：sdptool browse local
-  3.2 在通道22建立串口服务：sdptool add --channel=22 SP
-  3.3 如果出现Connection Refused可能是因为ubuntu已有的bluez版本过高，解决办法：
+3.电脑建立串口服务,注意不与现有功能冲突: 
+  3.1 查看本机已有服务: sdptool browse local
+  3.2 在通道22建立串口服务: sdptool add --channel=22 SP
+  3.3 如果出现Connection Refused可能是因为ubuntu已有的bluez版本过高,解决办法: 
       sudo gedit /etc/  systemd/system/dbus-org.bluez.service
-      在ExecStart一行最后加上 --compat，表示以兼容模式运行bluetoothd，即
+      在ExecStart一行最后加上 --compat,表示以兼容模式运行bluetoothd,即
       ExecStart=/usr/lib/bluetooth/bluetoothd --compat
-      然后重启蓝牙模块，并设置sdp目录权限：
+      然后重启蓝牙模块,并设置sdp目录权限: 
       sudo systemctl daemon-reload
       sudo systemctl restart bluetooth
       sudo chmod 777 /var/run/sdp
       然后重复3.1和3.2
 4.让PC端等待连接:sudo rfcomm listem /dev/rfcomm0 22
 5.在机器人上通过设备选择进行串口连接
-6.修改串口权限，使程序可以进行连接：sudo chmod 777 /dev/rfcomm0
+6.修改串口权限,使程序可以进行连接: sudo chmod 777 /dev/rfcomm0
 7.运行串口程序serial.c,生成a.out,运行a.out即可通过终端进行输入
 
 
