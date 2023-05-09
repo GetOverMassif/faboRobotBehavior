@@ -16,7 +16,3 @@
 5.在机器人上通过设备选择进行串口连接
 6.修改串口权限,使程序可以进行连接: sudo chmod 777 /dev/rfcomm0
 7.运行串口程序serial.c,生成a.out,运行a.out即可通过终端进行输入
-
-
-120 1;smile;null;0 1;front 200 100;
-王老师|120|100|none|none;smile|none|none|none|none;110|100|none|none|none;王老师早上好请让我为您测体温|none|none|none|none;front|200|100|none|none;
