@@ -1,0 +1,293 @@
+- need_name: Greet
+  intention: EnterHospital
+  IDtype: Patient
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.9
+  satisfy_value: 2
+
+
+- need_name: AskIntention
+  intention: EnterHospital
+  IDtype: Li
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.84
+  satisfy_value: 2
+
+
+  
+- need_name: StopStranger
+  intention: EnterHospital
+  IDtype: Stranger
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 1
+  satisfy_value: 2 
+
+
+- need_name: AskOtherIntention
+  intention: AskOtherIntention
+  IDtype: Li
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.95
+  satisfy_value: 2
+- need_name: AskOtherIntention
+  intention: AskOtherIntention
+  IDtype: Liu
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.95
+  satisfy_value: 2
+- need_name: AskOtherIntention
+  intention: AskOtherIntention
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.95
+  satisfy_value: 2
+- need_name: AskOtherIntention
+  intention: AskOtherIntention
+  IDtype: Hong
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.95
+  satisfy_value: 2
+
+- need_name: Answer
+  intention: Query
+  IDtype: Li
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85
+  satisfy_value: 2 
+- need_name: Answer
+  intention: Query
+  IDtype: Liu
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85
+  satisfy_value: 2  
+- need_name: Answer
+  intention: Query
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85 
+  satisfy_value: 2 
+- need_name: Answer
+  intention: Query
+  IDtype: Hong
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85 
+  satisfy_value: 2 
+
+
+- need_name: Call
+  intention: Call
+  IDtype: Li
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.83
+  satisfy_value: 2 
+- need_name: Call
+  intention: Call
+  IDtype: Liu
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.83
+  satisfy_value: 2  
+- need_name: Call
+  intention: Call
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.83 
+  satisfy_value: 2 
+- need_name: Call
+  intention: Call
+  IDtype: Hong
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.83
+  satisfy_value: 2 
+
+- need_name: PrintReport
+  intention: PrintReport
+  IDtype: Li
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: PrintReport
+  intention: PrintReport
+  IDtype: Liu
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2  
+- need_name: PrintReport
+  intention: PrintReport
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: PrintReport
+  intention: PrintReport
+  IDtype: Hong
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+
+- need_name: PhysicalExamination
+  intention: PhysicalExamination
+  IDtype: Li
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: PhysicalExamination
+  intention: PhysicalExamination
+  IDtype: Liu
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2  
+- need_name: PhysicalExamination
+  intention: PhysicalExamination
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: PhysicalExamination
+  intention: PhysicalExamination
+  IDtype: Hong
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+
+- need_name: ScheduledDialysis
+  intention: ScheduledDialysis
+  IDtype: Li
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: ScheduledDialysis
+  intention: ScheduledDialysis
+  IDtype: Liu
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2  
+- need_name: ScheduledDialysis
+  intention: ScheduledDialysis
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: ScheduledDialysis
+  intention: ScheduledDialysis
+  IDtype: Hong
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+
+- need_name: UnscheduledDialysis
+  intention: UnscheduledDialysis
+  IDtype: Li
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: UnscheduledDialysis
+  intention: UnscheduledDialysis
+  IDtype: Liu
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2  
+- need_name: UnscheduledDialysis
+  intention: UnscheduledDialysis
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: UnscheduledDialysis
+  intention: UnscheduledDialysis
+  IDtype: Hong
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 

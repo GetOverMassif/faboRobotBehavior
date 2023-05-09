@@ -1,0 +1,29 @@
+- need_name: KeepQuiet
+  intention: KeepQuiet
+  IDtype: 
+  person_emotion: 
+  rob_emotion: 
+  rob_status: 
+  time: 
+  weight: 1.2
+  satisfy_value: 
+
+- need_name: AvoidHurt
+  intention: Hurt
+  IDtype: 
+  person_emotion: 
+  rob_emotion: 
+  rob_status: 
+  time: 
+  weight: 1.5
+  satisfy_value: 
+
+- need_name: Dormancy
+  intention: Fall
+  IDtype: 
+  person_emotion: 
+  rob_emotion: 
+  rob_status: 
+  time: 
+  weight: 1.5
+  satisfy_value: 

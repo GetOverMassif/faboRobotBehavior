@@ -1,0 +1,11 @@
+Doubt_factor: 0.55 
+Doubt_weight: 0.95
+
+Wander_factor: 0.2
+Wander_weight: 0.7
+
+Chat_factor: 0.7
+Chat_weight: 0.7
+
+Charge_factor: 0.15
+Charge_weight: 1

@@ -1,0 +1,8 @@
+<launch>
+  <!-- get attitude_msg-->
+    <node pkg="emotion_module" type="attitude_talker.py" name="attitude_talker" />
+  <!-- get perception_msg-->
+    <node pkg="emotion_module" type="perception_talker.py" name="perception_talker" />
+  <!-- get need_satisfy__msg-->
+    <!-- node pkg="emotion_model" type="need_satisfy_talker.py" name="need_satisfy_talker" /-->
+</launch>

@@ -410,7 +410,7 @@ void execute(const control_msgs::FollowJointTrajectoryGoalConstPtr& goal, Server
                                 //control_msgs::FollowJointTrajectoryFeedback feedback;
                                 //feedback = NULL;
                                 //as->publishFeedback(feedback);
-                                ROS_INFO("Now We get all tarjectory num %d", time_from_start_.size());
+                                ROS_INFO("Now We get all tarjectory num %ld", time_from_start_.size());
 
                                 p2.vector_len = time_from_start_.size();
                                 p2.vector_cnt = 0;

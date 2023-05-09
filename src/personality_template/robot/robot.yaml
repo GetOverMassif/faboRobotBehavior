@@ -1,0 +1,21 @@
+- body_name: Gaze
+  target: teacher
+
+- body_name: Screen
+  type: happy
+
+- body_name: Sounder
+  tone: 
+  rate: 1
+  content: 老师您好啊
+  
+- body_name: Arm
+  action: 
+  rate: 1
+
+- body_name: Leg
+  target: 
+  action: 
+  rate: 1
+  distance: 1
+  

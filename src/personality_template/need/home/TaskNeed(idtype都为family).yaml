@@ -1,0 +1,59 @@
+- need_name: Greet
+  intention: ReturnHome
+  IDtype: family
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.9
+  satisfy_value: 2
+
+- need_name: Answer
+  intention: Query
+  IDtype: family
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85
+  satisfy_value: 2 
+
+- need_name: BringMing
+  intention: BringMing
+  IDtype: family
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+
+- need_name: Encourage
+  intention: FeelDepressed
+  IDtype: family
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.77
+  satisfy_value: 2 
+
+- need_name: GameReply
+  intention: GameAnswer
+  IDtype: family
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2 
+
+- need_name: Game
+  intention: Game
+  IDtype: family
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2 

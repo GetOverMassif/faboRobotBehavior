@@ -1,0 +1,1 @@
+social_msg/attitude_msg[]    attitudes  #社交态度

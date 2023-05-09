@@ -1,0 +1,171 @@
+- need_name: Greet
+  intention: ReturnHome
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.9
+  satisfy_value: 2
+- need_name: Greet
+  intention: ReturnHome
+  IDtype: Mam
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.88
+  satisfy_value: 2
+- need_name: Greet
+  intention: ReturnHome
+  IDtype: Dad
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.88 
+  satisfy_value: 2
+
+
+- need_name: Answer
+  intention: Query
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85
+  satisfy_value: 2 
+- need_name: Answer
+  intention: Query
+  IDtype: Mam
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85
+  satisfy_value: 2 
+- need_name: Answer
+  intention: Query
+  IDtype: Dad
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85
+  satisfy_value: 2 
+
+
+- need_name: BringMing
+  intention: BringMing
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: BringMing
+  intention: BringMing
+  IDtype: Mam
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+- need_name: BringMing
+  intention: BringMing
+  IDtype: Dad
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.8
+  satisfy_value: 2 
+
+
+- need_name: Encourage
+  intention: FeelDepressed
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.77
+  satisfy_value: 2 
+- need_name: Encourage
+  intention: FeelDepressed
+  IDtype: Mam
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.77
+  satisfy_value: 2 
+- need_name: Encourage
+  intention: FeelDepressed
+  IDtype: Dad
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.77
+  satisfy_value: 2 
+
+
+- need_name: GameReply
+  intention: GameAnswer
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2 
+- need_name: GameReply
+  intention: GameAnswer
+  IDtype: Mam
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2 
+- need_name: GameReply
+  intention: GameAnswer
+  IDtype: Dad
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2 
+
+- need_name: Game
+  intention: Game
+  IDtype: Ming
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2 
+- need_name: Game
+  intention: Game
+  IDtype: Mam
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2 
+- need_name: Game
+  intention: Game
+  IDtype: Dad
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2 

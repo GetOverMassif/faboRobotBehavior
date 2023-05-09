@@ -331,7 +331,7 @@ void BehaviorManager::behavior_feedback_callback(const behavior_module::behavior
                     if(!mbPauseFlag) mParallelNum = 1;
                     mviOccupancy = {1,1,1,1,1};
                     mbPauseFlag = false;
-                    // TODO:
+                    // TODO: SetWaitTimeHere
                     mtWaitToUpdate = new thread(&BehaviorManager::waitToUpdate, this, 20);
                     mtWaitToUpdate->detach();
                     // updateBehaviorPub();

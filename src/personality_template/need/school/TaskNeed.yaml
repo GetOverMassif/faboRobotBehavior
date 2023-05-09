@@ -1,0 +1,210 @@
+- need_name: Greet
+  intention: EnterSchool
+  IDtype: Teacher
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.9
+  satisfy_value: 2
+- need_name: Greet
+  intention: EnterSchool
+  IDtype: Student
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.88
+  satisfy_value: 2
+- need_name: Greet
+  intention: EnterSchool
+  IDtype: Parent
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.86 
+  satisfy_value: 2
+  
+- need_name: StopStranger
+  intention: EnterSchool
+  IDtype: Stranger
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 1
+  satisfy_value: 2 
+
+
+- need_name: MeasureTempareture
+  intention: EnterSchool
+  IDtype: Teacher
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2
+- need_name: MeasureTempareture
+  intention: EnterSchool
+  IDtype: Student
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2
+- need_name: MeasureTempareture
+  intention: EnterSchool
+  IDtype: Parent
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.75
+  satisfy_value: 2
+
+- need_name: Pass
+  intention: pass
+  IDtype: Teacher
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.95
+  satisfy_value: 2
+- need_name: Pass
+  intention: pass
+  IDtype: Student
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.95
+  satisfy_value: 2
+- need_name: Pass
+  intention: pass
+  IDtype: Parent
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.95
+  satisfy_value: 2
+
+- need_name: ParentIdentity
+  intention: EnterSchool
+  IDtype: Parent
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0
+  weight: 0.80
+  satisfy_value: 2 
+
+
+
+- need_name: Answer
+  intention: Query
+  IDtype: Teacher
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85
+  satisfy_value: 2 
+- need_name: Answer
+  intention: Query
+  IDtype: Student
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85
+  satisfy_value: 2  
+- need_name: Answer
+  intention: Query
+  IDtype: Parent
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85 
+  satisfy_value: 2 
+- need_name: Answer
+  intention: Query
+  IDtype: Stranger
+  person_emotion: Happy
+  rob_emotion: [0.5, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.05
+  weight: 0.85 
+  satisfy_value: 2 
+
+
+- need_name: KeepOrder
+  intention: Uncooperate
+  IDtype: Teacher
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0.5, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 0.85 
+  satisfy_value: 2 
+- need_name: KeepOrder
+  intention: Uncooperate
+  IDtype: Student
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0.5, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 0.85 
+  satisfy_value: 2 
+- need_name: KeepOrder
+  intention: Uncooperate
+  IDtype: Parent
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0.5, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 0.85
+  satisfy_value: 2  
+- need_name: KeepOrder
+  intention: Uncooperate
+  IDtype: Stranger
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0.5, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 0.85
+  satisfy_value: 2  
+
+
+- need_name:  Remind
+  intention: SendWord
+  IDtype: Teacher
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 0.7 
+  satisfy_value: 2 
+- need_name:  Remind
+  intention: SendWord
+  IDtype: Student
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 0.7
+  satisfy_value: 2  
+- need_name:  Remind
+  intention: SendWord
+  IDtype: Parent
+  person_emotion: Happy
+  rob_emotion: [0, 0, 0, 0, 0, 0, 0, 0 ]
+  rob_status: [0.1, 1, 1, 1, 1, 1, 1, 0 ]
+  time: 0.0
+  weight: 0.7
+  satisfy_value: 2 
